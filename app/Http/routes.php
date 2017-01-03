@@ -29,4 +29,11 @@ Route::get('client/{id}', 'ClientController@show');
 Route::delete('client/{id}', 'ClientController@destroy');
 
 
+Route::get('project', 'ProjectController@index');
+Route::post('project', 'ProjectController@store');
+Route::post('project/update/{id}', 'ProjectController@update');
+Route::get('project/{id}', 'ProjectController@show');
+Route::delete('project/{id}', 'ProjectController@destroy');
+
+
 

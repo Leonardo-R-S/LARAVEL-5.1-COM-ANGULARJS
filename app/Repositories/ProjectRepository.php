@@ -9,7 +9,9 @@
 namespace CodeProject\Repositories;
 
 
-interface ProjectRepository
+use Prettus\Repository\Contracts\RepositoryInterface;
+//This interface takes values ​​from class RepositoryInterface (Esta interface pega os valores da classe ClientRepositoryEloquent)
+interface ProjectRepository extends RepositoryInterface
 {
 
 }

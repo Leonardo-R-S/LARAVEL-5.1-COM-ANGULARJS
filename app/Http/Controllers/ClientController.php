@@ -2,11 +2,12 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Client;
+
+use CodeProject\Repositories\ClientRepository;
+use CodeProject\Services\ClientService;
 use Illuminate\Http\Request;
 
-use CodeProject\Http\Requests;
-use CodeProject\Http\Controllers\Controller;
+
 
 class ClientController extends Controller
 {
@@ -15,24 +16,42 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    /**
+     * @var ClientRepository
+     */
+    //Declares this variable as private (Declara essa variavel como privad)
+    private $repository;
+    /**
+     * @var ClientService
+     */
+    //Declares this variable as private (Declara essa variavel como privad)
+    private $service;
+
+
+    //Construct method where '$this->repository' receive values the interface 'ClientRepository' and add the service 'ClientService'
+    //Constroi função onde o metodo '$this->repository' recebe os valores do interface 'ClientRepository' e adiciona o cerviço 'ClientService'
+    public function __construct(ClientRepository $repository, ClientService $service)
     {
-//     Return array with data (Retorn um array com dados)
-       return \CodeProject\Client::all();
+        $this->repository = $repository;
+        $this->service = $service;
     }
 
 
+    // Call interfece ClientRepository (Chamo a interface clientRepository)
+    public function index()
+    {
+//     Return array with data (Retorn um array com dados)
+       return $this->repository->all();
+    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
 //      Receives data and save the database (Recebe os dados e salva no banco de dados)
-        return Client::create($request->all());
+        //nota: Get all values this method '$request->all()' and send from class 'ClientService' function 'create'
+        //nota: Aqui pegamos todos os valores com o metodo '$request->all()' e enviamos para o a classe 'ClientService' na função 'create'.
+        return $this->service->create($request->all());
     }
 
     /**
@@ -44,7 +63,7 @@ class ClientController extends Controller
     public function show($id)
     {
 //      Returns the value of the id (Retorna o valor do id)
-        return Client::find($id);
+        return $this->repository->find($id);
     }
 
 
@@ -58,12 +77,13 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
 //        Retrieves the data of the client to according to ID and save the changes(Recupera os dados do cliente de acordo com ID e salva as alterações feitas)
-        $updateClient = \CodeProject\Client::find($id);
+       return $this->service->update($request->all(), $id);
 
-        $updateClient -> __construct($request->all());
-        $updateClient ->save();
-
-        return $updateClient;
+       //Old method (Método antigo)
+        //$updateClient = $this->repository->find($id);
+        //$updateClient -> __construct($request->all());
+        //$updateClient ->save();
+        //return $updateClient;
 
 
     }
@@ -76,6 +96,9 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-       Client::find($id)->delete();
+        return $this->repository->delete($id);
+
+        //Old method (Método antigo)
+        //Client::find($id)->delete();
     }
 }
