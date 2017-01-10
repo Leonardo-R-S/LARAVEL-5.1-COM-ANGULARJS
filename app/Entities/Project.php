@@ -26,4 +26,10 @@ class Project extends Model
     {
         return $this->belongsTo('CodeProject\Entities\User','owner_id');
     }
+
+//Forengkey user
+    public function notes()
+    {
+        return $this->hasMany(ProjectNote::class);
+    }
 }

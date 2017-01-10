@@ -10,13 +10,12 @@ namespace CodeProject\Services;
 
 
 
-use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Validators\ProjectValidator;
+use CodeProject\Repositories\ProjectNoteRepository;
+use CodeProject\Validators\ProjectNoteValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 
-
-class ProjectService
+class ProjectNoteService
 {
     /**
      * @var ProjectRepository
@@ -28,7 +27,7 @@ class ProjectService
      */
     protected $validator;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
+    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
@@ -36,8 +35,8 @@ class ProjectService
     }
 //Function resposible for recover data from 'project','user' and 'client'(Função responsavel por recuperar dados do 'project','usuario' e 'cliente')
     public function index(){
-        return $this->repository->with('user')->with('client')->all();
 
+        return $this->repository->with('user')->with('client')->all();
    }
 //Function resposible for validate and create new register (Função responsavel por validar e criar novo registro)
     public function create(array $data)
@@ -57,19 +56,11 @@ class ProjectService
             ];
 
         }
+
+
+
+
     }
-//Function resposible for recover data from 'project'(Função responsavel por recuperar dados do 'project')
-    public function show($id){
-
-        try {
-            return $this->repository->find($id);
-        } catch (\Exception $e) {
-            return ['error'=>true, 'Desculpe mas nao foi possivel carregar este projeto'];
-
-        }
-    }
-
-
 //Function resposible for validate and update register(Função responsavel por validar e atualizar registro)
     public function update(array $data, $id)
     {
@@ -85,24 +76,7 @@ class ProjectService
                 'message'=>$e->getMessageBag()
             ];
 
-        }catch (\Exception $e) {
-            return ['error'=>true, 'Desculpe, mas nao foi modificar este projeto, verifique se este projeto existe.'];
 
-        }
-
-    }
-
-    public function destroy($id)
-    {
-        try {
-            $this->repository->find($id)->delete();
-            return ['success'=>true, 'Projeto deletado com sucesso!'];
-        } catch (QueryException $e) {
-            return ['error'=>true, 'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
-        } catch (ModelNotFoundException $e) {
-            return ['error'=>true, 'Projeto não encontrado.'];
-        } catch (\Exception $e) {
-            return ['error'=>true, 'Ocorreu algum erro ao excluir o projeto.'];
         }
     }
 

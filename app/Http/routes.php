@@ -29,11 +29,19 @@ Route::get('client/{id}', 'ClientController@show');
 Route::delete('client/{id}', 'ClientController@destroy');
 
 
+Route::get('project/{id}/note', 'ProjectNoteController@index');
+Route::post('project/{id}/note', 'ProjectNoteController@store');
+Route::put('project/{id}/note/{noteId}', 'ProjectNoteController@update');
+Route::get('project/{id}/note/{noteId}', 'ProjectNoteController@show');
+Route::post('project/{noteId}/note', 'ProjectNoteController@destroy');
+
 Route::get('project', 'ProjectController@index');
 Route::post('project', 'ProjectController@store');
 Route::post('project/update/{id}', 'ProjectController@update');
 Route::get('project/{id}', 'ProjectController@show');
 Route::delete('project/{id}', 'ProjectController@destroy');
+
+
 
 
 

@@ -50,10 +50,22 @@ class ClientService
 
         }
     }
+    //Function resposible for recover data from 'project'(Função responsavel por recuperar dados do 'project')
+    public function show($id){
+
+        
+        try {
+            return $this->repository->find($id);
+        } catch (\Exception $e) {
+            return ['error'=>true, 'Desculpe mas nao foi possivel carregar este Cliente'];
+
+        }
+    }
+
 //Function resposible for validate and update register(Função responsavel por validar e atualizar registro)
     public function  update(array $data, $id)
     {
-
+    
         try{
             $this->validator->with($data)->passesOrFail();
             return $this->repository->update($data, $id);
@@ -63,9 +75,28 @@ class ClientService
                 'error'=> true,
                 'message'=>$e->getMessageBag()
             ];
-        }
+        }catch (\Exception $e) {
+            return ['error'=>true, 'Desculpe, mas nao foi modificar este Cliente, verifique se este Cliente existe.'];
 
+        }
 
     }
 
+    public function destroy($id)
+    {
+
+        try {
+            $this->repository->find($id)->delete();
+            return ['success'=>true, 'Projeto deletado com sucesso!'];
+        } catch (QueryException $e) {
+            return ['error'=>true, 'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'Projeto não encontrado.'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'Ocorreu algum erro ao excluir o projeto.'];
+        }
+    }
+
+    
+    
 }

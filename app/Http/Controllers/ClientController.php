@@ -63,7 +63,7 @@ class ClientController extends Controller
     public function show($id)
     {
 //      Returns the value of the id (Retorna o valor do id)
-        return $this->repository->find($id);
+        return $this->service->show($id);
     }
 
 
@@ -96,9 +96,13 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+       // return 'teste';
+        return $this->service->destroy($id);
 
         //Old method (Método antigo)
         //Client::find($id)->delete();
     }
+
+
+
 }

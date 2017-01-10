@@ -2,14 +2,14 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectRepository;
-
-use CodeProject\Services\ProjectService;
+use CodeProject\Entities\ProjectNote;
+use CodeProject\Repositories\ProjectNoteRepository;
+use CodeProject\Services\ProjectNoteService;
 use Illuminate\Http\Request;
 
 
 
-class ProjectController extends Controller
+class ProjectNoteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class ProjectController extends Controller
     private $service;
 
 
-    public function __construct(ProjectRepository $repository,ProjectService $service)
+    public function __construct(ProjectNoteRepository $repository,ProjectNoteService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -34,10 +34,10 @@ class ProjectController extends Controller
     }
 
 
-    public function index()
+    public function index($id)
     {
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        return $this->service->index();
+        return $this->repository->findWhere(['project_id'=>$id]);
     }
 
     /**
@@ -60,10 +60,10 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $noteId)
     {
 //      Returns the value of the id (Retorna o valor do id)
-        return $this->service->show($id);
+        return $this->repository->findWhere(['project_id'=>$id, 'id'=>$noteId]);
     }
 
 
@@ -86,10 +86,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($noteId)
     {
-       
+        $valDependente = ProjectNote::find($noteId);
+        $valDependente -> delete();
+        return 'Excluido';
+
 //      Retrieves the data of the project and delete (Recupera os dados e os deleta)
-        return $this->service->destroy($id);
+       // return $this->repository->delete($noteId);
     }
 }
