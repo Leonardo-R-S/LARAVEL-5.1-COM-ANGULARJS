@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
 
 //      Call the Seed ClientTableSeeder(Chama a seed ClientTableSeeder)
-       /$this->call(ClientTableSeeder::class);
+        $this->call(ClientTableSeeder::class);
 
 
 //      Call the Seed ProjectTableSeeder(Chama a seed ProjectTableSeeder)
