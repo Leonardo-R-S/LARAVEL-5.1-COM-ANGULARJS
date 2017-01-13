@@ -31,6 +31,19 @@ $factory->define(CodeProject\Entities\User::class, function (Faker\Generator $fa
 
     ];
 });
+$factory->define(CodeProject\Entities\Project::class, function (Faker\Generator $faker) {
+    return [
+        'owner_id' => rand(1,10),
+        'client_id' => rand(1,10),
+        'name'=> $faker->name,
+        'description'=>$faker->sentences(3,true),
+        'progress' => rand(1,100),
+        'status' =>rand(1,3),
+        'due_date' => $faker->date('Y-m-d')
+
+    ];
+});
+
 $factory->define(CodeProject\Entities\ProjectNote::class, function (Faker\Generator $faker) {
     return [
         'project_id' => rand(1,10),
