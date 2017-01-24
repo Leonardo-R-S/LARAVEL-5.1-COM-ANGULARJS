@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    protected $table = 'projects';
+
 //Autorizes entry array data (Autoriza a entada de dados num array)
     protected $fillable = [
     'owner_id',
@@ -27,9 +29,15 @@ class Project extends Model
         return $this->belongsTo('CodeProject\Entities\User','owner_id');
     }
 
-//Forengkey user
+//Forengkey notes
     public function notes()
     {
         return $this->hasMany(ProjectNote::class);
+    }
+
+//Forengkey members
+    public function members()
+    {
+       return $this->belongsToMany(User::class, 'project_members', 'project_id', 'user_id');
     }
 }

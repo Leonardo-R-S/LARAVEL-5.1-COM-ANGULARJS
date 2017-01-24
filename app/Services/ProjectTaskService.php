@@ -10,12 +10,15 @@ namespace CodeProject\Services;
 
 
 
-use CodeProject\Repositories\ProjectNoteRepository;
-use CodeProject\Validators\ProjectNoteValidator;
+
+
+use CodeProject\Repositories\ProjectTaskRepository;
+
+use CodeProject\Validators\ProjectTaskValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 
-class ProjectNoteService
+class ProjectTaskService
 {
     /**
      * @var ProjectRepository
@@ -27,16 +30,16 @@ class ProjectNoteService
      */
     protected $validator;
 
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskValidator $validator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
 
     }
-//Function resposible for recover data from 'project','user' and 'client'(Função responsavel por recuperar dados do 'project','usuario' e 'cliente')
+//Function resposible for recover data from 'projectTask' and 'project'(Função responsavel por recuperar dados do 'project','project')
     public function index(){
 
-        return $this->repository->with('user')->with('client')->all();
+        return $this->repository->with('project')->all();
    }
 //Function resposible for validate and create new register (Função responsavel por validar e criar novo registro)
     public function create(array $data)
@@ -59,13 +62,13 @@ class ProjectNoteService
 
     }
 
-//Function resposible for recover data from 'Nota'(Função responsavel por recuperar dados do 'Nota')
-    public function show($id, $noteId){
+//Function resposible for recover data from 'projectTask'(Função responsavel por recuperar dados do 'projectTask')
+    public function show($id){
 
         try {
-            return $this->service->findWhere(['project_id'=>$id, 'id'=>$noteId]);
+            return $this->repository->find($id);
         } catch (\Exception $e) {
-            return ['error'=>true, 'Desculpe mas nao foi possivel carregar esta nota'];
+            return ['error'=>true, 'Desculpe mas nao foi possivel carregar este Projeto Task'];
 
         }
     }
@@ -87,8 +90,24 @@ class ProjectNoteService
 
 
         }catch (\Exception $e) {
-            return ['error'=>true, 'Desculpe, mas nao foi modificar esta Nota, verifique se esta Nota existe.'];
+            return ['error'=>true, 'Desculpe, mas nao foi modificar esta Project Task, verifique se esta Project Task existe.'];
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->repository->find($id)->delete();
+            return ['success'=>true, 'Projeto Task deletado com sucesso!'];
+        } catch (QueryException $e) {
+            return ['error'=>true, 'Projeto Task não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'Projeto Task não encontrado.'];
+        } catch (\Exception $e) {
+            return ['error'=>true, 'Ocorreu algum erro ao excluir o Projeto Task.'];
+        }
+    }
+
+
 
 }

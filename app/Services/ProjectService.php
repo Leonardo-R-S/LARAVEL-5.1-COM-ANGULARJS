@@ -10,7 +10,9 @@ namespace CodeProject\Services;
 
 
 
+use CodeProject\Repositories\ProjectMembersRepository;
 use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Validators\ProjectMembersValidator;
 use CodeProject\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 
@@ -28,10 +30,17 @@ class ProjectService
      */
     protected $validator;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
+    protected $membersRepository;
+
+    protected $membersValidator;
+
+
+    public function __construct(ProjectRepository $repository, ProjectMembersRepository $membersRepository, ProjectValidator $validator, ProjectMembersValidator $membersValidator)
     {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->membersRepository = $membersRepository;
+        $this->membersValidator = $membersValidator;
 
     }
 //Function resposible for recover data from 'project','user' and 'client'(Função responsavel por recuperar dados do 'project','usuario' e 'cliente')
@@ -105,5 +114,75 @@ class ProjectService
             return ['error'=>true, 'Ocorreu algum erro ao excluir o projeto.'];
         }
     }
+
+//////////////////////// Initiate ProjectMembers (Inicia ProjectMembers) ////////////////////////////////////
+
+
+    public function showmembers($id){
+
+        try {
+            return $members = $this->repository->with('members')->find($id);
+           // return $members = $this->repository->with('members')->find($id);
+
+        } catch (\Exception $e) {
+            return [
+                'error'=> true,
+                'message'=>$e->getMessage()
+            ];
+        }
+    }
+    public function isMember($id, $membersId){
+
+
+           $val = $this->membersRepository->with('user')->findWhere(['project_id'=>$id, 'user_id'=>$membersId]);
+        if (count($val) == null ) {
+            return [
+                'error' => true,
+                'message' => "Membro $membersId nao encontrado no Projeto $id",
+            ];
+        }else{ return $val; }
+    }
+
+
+    public function addMember(array $data)
+    {
+        try{
+
+            $this->membersValidator->with($data)->passesOrFail();
+
+            return $this->membersRepository->create($data);
+        }catch (ValidatorException $e){
+
+            return [
+                'error'=> true,
+                'message'=>$e->getMessageBag()
+            ];
+
+        }
+    }
+
+    public function destroymembers($id, $membersId)
+    {
+
+        try {
+
+
+            $project = $this->repository->find($id);
+            $project->members()->delete($membersId);
+
+            return ['success'=>true, 'Membro do projeto deletado com sucesso!'];
+        } catch (QueryException $e) {
+            return ['error'=>true, 'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+        } catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'Projeto não encontrado.'];
+        } catch (\Exception $e) {
+            return [
+                'error'=> true,
+                'message'=>$e->getMessage()
+            ];
+        }
+    }
+
+
 
 }

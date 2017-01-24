@@ -65,8 +65,7 @@ class ProjectController extends Controller
 //      Returns the value of the id (Retorna o valor do id)
         return $this->service->show($id);
     }
-
-
+  
     /**
      * Update the specified resource in storage.
      *
@@ -92,4 +91,32 @@ class ProjectController extends Controller
 //      Retrieves the data of the project and delete (Recupera os dados e os deleta)
         return $this->service->destroy($id);
     }
+
+//////////////////////// Initiate ProjectMembers (Inicia ProjectMembers) ////////////////////////////////////    
+    
+    public function showmembers($id)
+    {
+
+        return $this->service->showmembers($id);
+    }
+    public function isMember($id, $memberId)
+    {
+
+        return $this->service->isMember($id, $memberId);
+    }
+
+    public function storemembers(Request $request)
+    {
+        return  $this->service->addMember($request->all());
+    }
+
+
+    public function destroymembers($id, $memberId)
+    {
+       
+
+        return $this->service->destroymembers($id, $memberId);
+
+    }
+
 }
