@@ -41,7 +41,7 @@ class ProjectNoteService
 //Function resposible for validate and create new register (Função responsavel por validar e criar novo registro)
     public function create(array $data)
     {
-
+       
         try{
             
             $this->validator->with($data)->passesOrFail();
@@ -61,9 +61,9 @@ class ProjectNoteService
 
 //Function resposible for recover data from 'Nota'(Função responsavel por recuperar dados do 'Nota')
     public function show($id, $noteId){
-
+       
         try {
-            return $this->service->findWhere(['project_id'=>$id, 'id'=>$noteId]);
+            return $this->repository->findWhere(['project_id'=>$id, 'id'=>$noteId]);
         } catch (\Exception $e) {
             return ['error'=>true, 'Desculpe mas nao foi possivel carregar esta nota'];
 
@@ -73,6 +73,7 @@ class ProjectNoteService
 //Function resposible for validate and update register(Função responsavel por validar e atualizar registro)
     public function update(array $data, $id)
     {
+
         try {
             $this->validator->with($data)->passesOrFail();
 

@@ -16,7 +16,6 @@ class ProjectNoteValidator extends LaravelValidator
     protected $rules = [
         'project_id' => 'required',
         'title'=> 'required',
-        'name'=> 'required|max:255',
         'note'=> 'required',
 
     ];

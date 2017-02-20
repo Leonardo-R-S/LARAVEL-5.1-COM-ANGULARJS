@@ -14,7 +14,12 @@ use CodeProject\Repositories\ProjectMembersRepository;
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Validators\ProjectMembersValidator;
 use CodeProject\Validators\ProjectValidator;
+
+
 use Prettus\Validator\Exceptions\ValidatorException;
+
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Filesystem\Factory as Storage;
 
 
 
@@ -34,11 +39,17 @@ class ProjectService
 
     protected $membersValidator;
 
+    protected $filesystem;
 
-    public function __construct(ProjectRepository $repository, ProjectMembersRepository $membersRepository, ProjectValidator $validator, ProjectMembersValidator $membersValidator)
+    protected $storage;
+
+
+     public function __construct(ProjectRepository $repository, ProjectMembersRepository $membersRepository, ProjectValidator $validator, ProjectMembersValidator $membersValidator, Filesystem $filesystem, Storage $storage)
     {
         $this->repository = $repository;
         $this->validator = $validator;
+        $this->filesystem = $filesystem;
+        $this->storage = $storage;
         $this->membersRepository = $membersRepository;
         $this->membersValidator = $membersValidator;
 
@@ -167,7 +178,7 @@ class ProjectService
         try {
 
 
-            $project = $this->repository->find($id);
+            $project = $this->repository->skipPresenter()->find($id);
             $project->members()->delete($membersId);
 
             return ['success'=>true, 'Membro do projeto deletado com sucesso!'];
@@ -183,6 +194,42 @@ class ProjectService
         }
     }
 
+//////////////////////// Initiate ProjectFile (Inicia ProjectFile) ////////////////////////////////////
+    public function  createFile(array $data){
+
+        $project = $this->repository->skipPresenter()->find($data['project_id']);
+
+        $projectFile = $project->files()->create($data);
+
+        $this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']));
+    }
+
+    public function  indexFile($id){
+        return $this->repository->skipPresenter()->with('files')->find($id);
+    }
+    public function  showFile($id, $fileId){
+
+        $project = $this->repository->skipPresenter()->find($id);
+        return $project->files()->find($fileId);
+
+
+    }
+
+    //Function resposible for validate and update register(Função responsavel por validar e atualizar registro)
+    public function updateFile(array $data, $fileId)
+    {
+        return $data;
+
+        return  $project = $this->repository->skipPresenter()->find($data['project_id']);
+
+        return  $projectFile = $project->files()->update($data, $fileId);
+
+        //$this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']));
+
+           // return $this->repository->update($data, $id);
+
+
+    }
 
 
 }

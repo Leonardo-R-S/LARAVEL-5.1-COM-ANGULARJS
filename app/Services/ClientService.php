@@ -86,14 +86,14 @@ class ClientService
     {
 
         try {
-            $this->repository->find($id)->delete();
-            return ['success'=>true, 'Projeto deletado com sucesso!'];
+            $this->repository->skipPresenter()->find($id)->delete();
+            return ['success'=>true, 'Cliente deletado com sucesso!'];
         } catch (QueryException $e) {
-            return ['error'=>true, 'Projeto não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
+            return ['error'=>true, 'Cliente não pode ser apagado pois existe um ou mais clientes vinculados a ele.'];
         } catch (ModelNotFoundException $e) {
-            return ['error'=>true, 'Projeto não encontrado.'];
+            return ['error'=>true, 'Cliente não encontrado.'];
         } catch (\Exception $e) {
-            return ['error'=>true, 'Ocorreu algum erro ao excluir o projeto.'];
+            return ['error'=>true, 'Ocorreu algum erro ao excluir o Cliente.'];
         }
     }
 

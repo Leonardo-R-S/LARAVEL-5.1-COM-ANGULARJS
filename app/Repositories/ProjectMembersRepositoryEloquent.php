@@ -8,6 +8,7 @@ use CodeProject\Repositories\ProjectMembersRepository;
 use CodeProject\Entities\ProjectMembers;
 use CodeProject\Validators\ProjectMembersValidator;
 
+
 /**
  * Class ProjectMembersRepositoryEloquent
  * @package namespace CodeProject\Repositories;
@@ -33,4 +34,6 @@ class ProjectMembersRepositoryEloquent extends BaseRepository implements Project
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+   
 }

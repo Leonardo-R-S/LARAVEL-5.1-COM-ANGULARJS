@@ -4,6 +4,9 @@ namespace CodeProject\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+
+
 class Project extends Model
 {
     protected $table = 'projects';
@@ -35,9 +38,24 @@ class Project extends Model
         return $this->hasMany(ProjectNote::class);
     }
 
+    //Forengkey notes
+    public function files()
+    {
+        return $this->hasMany(ProjectFile::class);
+    }
+
+
+
 //Forengkey members
     public function members()
     {
        return $this->belongsToMany(User::class, 'project_members', 'project_id', 'user_id');
     }
+    public function projectTask(){
+
+        // return $this->hasMany(Project::class);
+        return $this->belongsTo(ProjectTask::class);
+    }
+
+
 }

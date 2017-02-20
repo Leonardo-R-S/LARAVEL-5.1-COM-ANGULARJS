@@ -96,7 +96,7 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-       // return 'teste';
+        //return 'teste';
         return $this->service->destroy($id);
 
         //Old method (Método antigo)
