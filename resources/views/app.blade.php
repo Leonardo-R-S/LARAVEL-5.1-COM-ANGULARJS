@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8" >
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Laravel</title>
@@ -54,7 +54,7 @@
 						@endif
 					@else
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ auth()->user()->name }} <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 							</ul>
@@ -66,17 +66,31 @@
 	</nav>
 
 
-	@yield('content')
+	<div ng-view>
+
+	</div>
 
 	@if(Config::get('app.debug'))
-		<script src="{{asset('build/css/vendor/jquery.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/angular.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/angular-route.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/angular-resource.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/angular-animate.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/angular-messages.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/ui-bootstrap.min.js') }}"></script>
-		<script src="{{asset('build/css/vendor/navbar.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/jquery.min.js') }}"></script>
+
+		<script src="{{asset('build/js/vendor/angular.js') }}"></script>
+
+		<script src="{{asset('build/js/vendor/angular-route.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-resource.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-animate.min.js') }}"></script>
+
+		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/navbar.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-messages.min.js') }}"></script>
+
+		<script src="{{asset('build/js/vendor/query-string.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-cookie.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
+
+		<script src="{{asset('build/js/app.js') }}"></script>
+		<script src="{{asset('build/js/controllers/login.js') }}"></script>
+		<script src="{{asset('build/js/controllers/home.js') }}"></script>
+
 	@else
 		<script src="{{url(elixir('js/all.js'))}}"></script>
 	@endif

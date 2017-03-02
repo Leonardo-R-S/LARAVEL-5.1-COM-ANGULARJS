@@ -20,13 +20,18 @@ config.build_vendor_path_js = config.build_path_js+'/vendor';
 config.vendor_path_js= [
     config.bower_path+'/jquery/dist/jquery.min.js',
     config.bower_path+'/bootstrap/dist/js/bootstrap.min.js',
-    config.bower_path+'/angular/angular.min.js',
+    config.bower_path+'/angular/angular.js',
     config.bower_path+'/angular-route/angular-route.min.js',
     config.bower_path+'/angular-resource/angular-resource.min.js',
     config.bower_path+'/angular-animate/angular-animate.min.js',
     config.bower_path+'/angular-messages/angular-messages.min.js',
     config.bower_path+'/angular-bootstrap/ui-bootstrap.min.js',
     config.bower_path+'/angular-strap/dist/modules/navbar.min.js',
+
+    config.bower_path+'/angular-cookie/angular-cookie.min.js',
+
+    config.bower_path+'/query-string/query-string.js',
+    config.bower_path+'/angular-oauth2/dist/angular-oauth2.min.js'
 
 ];
 
@@ -40,6 +45,20 @@ config.vendor_path_css= [
     config.bower_path+'/bootstrap/dist/css/bootstrap-theme.min.css',
 
 ];
+
+//Local onde fica os HTML
+config.build_path_html = config.build_path + '/views';
+
+gulp.task('copy-html', function () {
+    //Busca todos os arquivos html nas sub pastas
+    gulp.src([ config.assets_path+'/js/views/**/*.html'])
+    //Copia para esta pasta
+        .pipe(gulp.dest(config.build_path_html))
+        //Mosta ação no terminal
+        .pipe(liveReload());
+
+});
+
 //Função para verificar os arquivos css e copialos para outra pasta
 gulp.task('copy-styles', function () {
     //Busca todos os arquivos css nas sub pastas
@@ -78,6 +97,7 @@ gulp.task('clear_build_folder',function () {
 
 //Função para mesclar e copilar os arquivos de js e css tanto de terceiros quanto pessoais, e tambem versionar os arquivos.
 gulp.task('default',['clear_build_folder'], function () {
+    gulp.start('copy-html');
     elixir(function(mix) {
         mix.styles(config.vendor_path_css.concat([config.assets_path+'/css/**/*.css']),'public/css/all.css',config.assets_path);
         mix.scripts(config.vendor_path_js.concat([config.assets_path+'/js/**/*.js']),'public/js/all.js',config.assets_path);
@@ -89,8 +109,8 @@ gulp.task('default',['clear_build_folder'], function () {
 //Função que executa o metodo listen, e chama copy-styles e copy-scripts (OBS. a função clear_build_folder sera executada antes).
 gulp.task('watch-dev',['clear_build_folder'], function () {
    liveReload.listen();
-    gulp.start('copy-styles', 'copy-scripts');
-    gulp.watch(config.assets_path+'/**',['copy-styles', 'copy-scripts']);
+    gulp.start('copy-styles', 'copy-scripts','copy-html');
+    gulp.watch(config.assets_path+'/**',['copy-styles', 'copy-scripts','copy-html']);
 });
 
 
