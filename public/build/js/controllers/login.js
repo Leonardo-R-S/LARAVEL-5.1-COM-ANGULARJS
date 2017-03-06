@@ -5,11 +5,12 @@ angular.module('app.controllers').controller('LoginController',['$scope','$locat
     };
 
     $scope.login = function () {
-       
-        OAuth.getAccessToken($scope.user).then(function () {
-            $location.path('home');
-        },function () {
-            alert('Login Inválido');
-        });
+       if($scope.form.$valid) {
+           OAuth.getAccessToken($scope.user).then(function () {
+               $location.path('home');
+           }, function () {
+               alert('Login Inválido');
+           });
+       }
     };
 }]);
