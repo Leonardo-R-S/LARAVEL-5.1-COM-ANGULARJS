@@ -71,7 +71,7 @@ $factory->define(CodeProject\Entities\ProjectMembers::class, function (Faker\Gen
     ];
 });
 
-$factory->define(CodeProject\Entities\OAuthClient::class, function (Faker\Genegitrator $faker) {
+$factory->define(CodeProject\Entities\OAuthClient::class, function () {
     return [
         'id'=> 'appid1',
         'secret' =>  'secret',
