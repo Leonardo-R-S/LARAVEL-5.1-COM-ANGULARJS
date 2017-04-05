@@ -33,7 +33,7 @@ class ProjectService
     /**
      * @var ProjectValidator
      */
-    protected $validator;
+   
 
     protected $membersRepository;
 
