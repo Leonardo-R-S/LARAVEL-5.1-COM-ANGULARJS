@@ -28495,19 +28495,41 @@ var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers']);
 angular.module('app.controllers',['ngMessages','angular-oauth2']);
 
 
+app.provider('appConfig',function () {
+    //Isso é o que ele deve retornar como valor
+    var config = {
+        //Aqui indica o caminho da aplicação
+        baseUrl: 'http://localhost/CursoLaravelAngular/public/'
+    };
+    return{
+        //Variavel config recebe config
+        config: config,
+        $get: function () {
+            return config;
 
-app.config(['$routeProvider','OAuthProvider',function ($routeProvider,OAuthProvider) {
+        }
+    }
+
+});
+
+//Este config so aceita provaders
+app.config(['$routeProvider','OAuthProvider','appConfigProvider',function ($routeProvider,OAuthProvider,appConfigProvider) {
     $routeProvider
         .when('/login',{
             templateUrl:'build/views/login.html',
             controller:'LoginController'
+        })
+        .when('/clients',{
+            templateUrl:'build/views/client/list.html',
+            controller:'ClientListController'
         })
         .when('/home',{
             templateUrl:'build/views/home.html',
             controller:'HomeController'
         });
         OAuthProvider.configure({
-        baseUrl: 'http://localhost/CursoLaravelAngular/public/',
+        //Busca balor no appConfig
+        baseUrl: 'appConfigProvider.config.baseUrl',
         clientId: 'appid1',
         clientSecret: 'secret', // optional
         grantPath:'oauth/access_token'
@@ -28558,5 +28580,8 @@ angular.module('app.controllers').controller('LoginController',['$scope','$locat
            });
        }
     };
+}]);
+angular.module('app.controllers').controller('ClientListController',['$scope',function ($scope) {
+    $scope.Clients = [];
 }]);
 //# sourceMappingURL=all.js.map

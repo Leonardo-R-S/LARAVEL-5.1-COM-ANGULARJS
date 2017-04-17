@@ -5,4 +5,5 @@ Homestead.json
 .env
 resources/bower_components
 .idea/workspace.xml
+
 .idea/deployment.xml

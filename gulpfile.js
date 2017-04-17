@@ -22,7 +22,7 @@ config.vendor_path_js= [
     config.bower_path+'/bootstrap/dist/js/bootstrap.min.js',
     config.bower_path+'/angular/angular.js',
     config.bower_path+'/angular-route/angular-route.min.js',
-    config.bower_path+'/angular-resource/angular-resource.min.js',
+    config.bower_path+'/angular-resource/angular-resource.js',
     config.bower_path+'/angular-animate/angular-animate.min.js',
     config.bower_path+'/angular-messages/angular-messages.min.js',
     config.bower_path+'/angular-bootstrap/ui-bootstrap.min.js',

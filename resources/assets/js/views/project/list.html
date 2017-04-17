@@ -1,0 +1,45 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">List of Projects</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>Owner (Dono)</td>
+                            <td>Client</td>
+                            <td>Name</td>
+                            <td>Description</td>
+                            <td>Progress</td>
+                            <td>Status</td>
+                            <td>Due date (Vencimento)</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="p in project">
+                            <td>{{p.id}}</td>
+                            <td>{{p.owner_id}}</td>
+                            <td>{{p.client_id}}</td>
+                            <td>{{p.name}}</td>
+                            <td>{{p.description}}</td>
+                            <td>{{p.progress}}</td>
+                            <td>{{p.status}}</td>
+                            <td>{{p.due_date}}</td>
+                            <td>
+                                <a ng-href="#/project/{{p.id}}/notes" >Notes</a>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

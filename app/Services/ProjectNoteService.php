@@ -63,7 +63,8 @@ class ProjectNoteService
     public function show($id, $noteId){
        
         try {
-            return $this->repository->findWhere(['project_id'=>$id, 'id'=>$noteId]);
+             return $valor = $this->repository->skipPresenter()->findWhere(['id'=>$noteId,'project_id'=>$id]);
+           //return $valor[0];
         } catch (\Exception $e) {
             return ['error'=>true, 'Desculpe mas nao foi possivel carregar esta nota'];
 
@@ -77,7 +78,7 @@ class ProjectNoteService
         try {
             $this->validator->with($data)->passesOrFail();
 
-            return $this->repository->update($data, $id);
+            return $this->repository->skipPresenter()->update($data, $id);
 
         } catch (ValidatorException $e) {
 

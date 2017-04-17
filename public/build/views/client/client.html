@@ -1,0 +1,37 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Client</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Responsible</td>
+                            <td>E-mail</td>
+                            <td>Phone</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+                            <td>{{clients.name}}</td>
+                            <td>{{clients.responsible}}</td>
+                            <td>{{clients.email}}</td>
+                            <td>{{clients.phone}}</td>
+                            <td>
+                                <a ng-href="#/clients/{{clients.id}}/edit" >Edit</a> /
+                                <a ng-href="#/clients/{{clients.id}}/remove" >Excluir</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

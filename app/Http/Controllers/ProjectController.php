@@ -40,7 +40,7 @@ class ProjectController extends Controller
     {
 
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        return $this->repository->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
+        return $this->repository->skipPresenter()->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
     }
 
     /**

@@ -17,7 +17,7 @@
 	@endif
 
 	<!-- Fonts -->
-	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -76,7 +76,7 @@
 		<script src="{{asset('build/js/vendor/angular.js') }}"></script>
 
 		<script src="{{asset('build/js/vendor/angular-route.min.js') }}"></script>
-		<script src="{{asset('build/js/vendor/angular-resource.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-resource.js') }}"></script>
 		<script src="{{asset('build/js/vendor/angular-animate.min.js') }}"></script>
 
 		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js') }}"></script>
@@ -88,8 +88,30 @@
 		<script src="{{asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
 
 		<script src="{{asset('build/js/app.js') }}"></script>
+
+		<!-- CONTROLLERS !-->
 		<script src="{{asset('build/js/controllers/login.js') }}"></script>
 		<script src="{{asset('build/js/controllers/home.js') }}"></script>
+
+		<script src="{{asset('build/js/controllers/client/client.js') }}"></script>
+		<script src="{{asset('build/js/controllers/client/clientList.js') }}"></script>
+		<script src="{{asset('build/js/controllers/client/clientNew.js') }}"></script>
+		<script src="{{asset('build/js/controllers/client/clientEdit.js') }}"></script>
+		<script src="{{asset('build/js/controllers/client/clientRemove.js') }}"></script>
+
+		<script src="{{asset('build/js/controllers/project/projectList.js') }}"></script>
+
+		<script src="{{asset('build/js/controllers/projectNote/projectNoteList.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectNote/projectNote.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectNote/projectNoteNew.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectNote/projectNoteEdit.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectNote/projectNoteRemove.js') }}"></script>
+
+		<!-- SERVICES !-->
+		<script src="{{asset('build/js/services/client.js') }}"></script>
+		<script src="{{asset('build/js/services/project.js') }}"></script>
+		<script src="{{asset('build/js/services/projectNote.js') }}"></script>
+
 
 	@else
 		<script src="{{url(elixir('js/all.js'))}}"></script>

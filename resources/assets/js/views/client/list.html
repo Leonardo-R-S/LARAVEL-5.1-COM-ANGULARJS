@@ -1,0 +1,38 @@
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">List of clients <a class="col-md-offset-10" ng-href="#/clients/new" >New client</a></div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Responsible</td>
+                            <td>E-mail</td>
+                            <td>Phone</td>
+                            <td>Action</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="o in clients">
+                                <td>{{o.name}}</td>
+                                <td>{{o.responsible}}</td>
+                                <td>{{o.email}}</td>
+                                <td>{{o.phone}}</td>
+                                <td>
+                                   <a ng-href="#/clients/{{o.id}}" >Client</a>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -35,7 +35,7 @@ Route::post('oauth/access_token', function() {
         Route::post('{id}/note', 'ProjectNoteController@store');
         Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
         Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
-        Route::delete('{noteId}/note', 'ProjectNoteController@destroy');
+        Route::delete('note/{noteId}', 'ProjectNoteController@destroy');
 
         Route::get('task', 'ProjectTaskController@index');
         Route::post('task', 'ProjectTaskController@store');

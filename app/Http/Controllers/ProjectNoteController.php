@@ -45,12 +45,12 @@ class ProjectNoteController extends Controller
 
     public function index($id)
     {
-
+       
         if($this->checkProjectPermissions($id)==false){
         return ['error'=>'Access forbidden'];
          }
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        return $this->repository->findWhere(['project_id'=>$id]);
+        return $this->repository->skipPresenter()->findWhere(['project_id'=>$id]);
 
     }
 
@@ -60,16 +60,24 @@ class ProjectNoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
 
-        if($this->checkProjectPermissions($request->project_id)==false){
+        if($this->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
  //      Receives data and save the database (Recebe os dados e salva no banco de dados)
         //nota: Get all values this method '$request->all()' and send from class 'ProjectService' function 'create'
         //nota: Aqui pegamos todos os valores com o metodo '$request->all()' e enviamos para o a classe 'ProjectService' na função 'create'.
-      return  $this->service->create($request->all());
+
+
+        $data = ['project_id'=>$id,
+                 'title'=> $request->title,
+                 'note'=> $request->note
+
+        ];
+
+      return  $this->service->create($data);
     }
 
     /**
@@ -84,6 +92,9 @@ class ProjectNoteController extends Controller
         if($this->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
+
+
+
 //      Returns the value of the id (Retorna o valor do id)
         return $this->service->show($id,$noteId);
     }
@@ -96,14 +107,23 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $id, $idNote)
     {
 
-        if($this->checkProjectPermissions($request->project_id)==false){
+
+        if($this->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
+
+        $data = ['project_id'=>$id,
+            'title'=> $request->title,
+            'note'=> $request->note
+
+        ];
+
 //        Retrieves the data of the project to according to ID and save the changes(Recupera os dados do project de acordo com ID e salva as alterações feitas)
-        return $this->service->update($request->all(), $id);
+        return $this->service->update($data, $idNote);
     }
 
     /**

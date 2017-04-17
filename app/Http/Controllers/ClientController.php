@@ -42,7 +42,7 @@ class ClientController extends Controller
     public function index()
     {
 //     Return array with data (Retorn um array com dados)
-       return $this->repository->all();
+       return $this->repository->skipPresenter()->all();
     }
 
 
