@@ -63,8 +63,11 @@ class ProjectNoteService
     public function show($id, $noteId){
        
         try {
-             return $valor = $this->repository->skipPresenter()->findWhere(['id'=>$noteId,'project_id'=>$id]);
-           //return $valor[0];
+              $result = $this->repository->skipPresenter()->findWhere(['id'=>$noteId,'project_id'=>$id]);
+             if(isset($result['data'])&& count($result['data'])==1){
+                 $result = ['data' => $result['data'][0]];
+             };
+             return $result;
         } catch (\Exception $e) {
             return ['error'=>true, 'Desculpe mas nao foi possivel carregar esta nota'];
 

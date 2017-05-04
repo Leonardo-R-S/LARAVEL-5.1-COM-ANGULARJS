@@ -20,7 +20,7 @@
                             <td>{{pN.id}}</td>
                             <td>{{pN.project_id}}</td>
                             <td>{{pN.title}}</td>
-                            <td>{{pN.note}}</td>
+                            <td>{{pN.note| limitTo:70}}...</td>
 
                             <td>
                                 <a ng-href="#/project/{{pN.project_id}}/note/{{pN.id}}/edit" >Edit</a> /

@@ -48,12 +48,36 @@ config.vendor_path_css= [
 
 //Local onde fica os HTML
 config.build_path_html = config.build_path + '/views';
+//Local onde fica os imagens
+config.build_path_images = config.build_path + '/images';
+//Local onde fica os fontes
+config.build_path_fonts = config.build_path + '/fonts';
 
 gulp.task('copy-html', function () {
     //Busca todos os arquivos html nas sub pastas
     gulp.src([ config.assets_path+'/js/views/**/*.html'])
     //Copia para esta pasta
         .pipe(gulp.dest(config.build_path_html))
+        //Mosta ação no terminal
+        .pipe(liveReload());
+
+});
+
+gulp.task('copy-images', function () {
+    //Busca todos os arquivos images nas sub pastas
+    gulp.src([ config.assets_path+'/images/**/*'])
+    //Copia para esta pasta
+        .pipe(gulp.dest(config.build_path_images))
+        //Mosta ação no terminal
+        .pipe(liveReload());
+
+});
+
+gulp.task('copy-fonts', function () {
+    //Busca todos os arquivos fonts nas sub pastas
+    gulp.src([ config.assets_path+'/fonts/**/*'])
+    //Copia para esta pasta
+        .pipe(gulp.dest(config.build_path_fonts))
         //Mosta ação no terminal
         .pipe(liveReload());
 
@@ -97,7 +121,7 @@ gulp.task('clear_build_folder',function () {
 
 //Função para mesclar e copilar os arquivos de js e css tanto de terceiros quanto pessoais, e tambem versionar os arquivos.
 gulp.task('default',['clear_build_folder'], function () {
-    gulp.start('copy-html');
+    gulp.start('copy-html','copy-images','copy-fonts');
     elixir(function(mix) {
         mix.styles(config.vendor_path_css.concat([config.assets_path+'/css/**/*.css']),'public/css/all.css',config.assets_path);
         mix.scripts(config.vendor_path_js.concat([config.assets_path+'/js/**/*.js']),'public/js/all.js',config.assets_path);
@@ -109,7 +133,7 @@ gulp.task('default',['clear_build_folder'], function () {
 //Função que executa o metodo listen, e chama copy-styles e copy-scripts (OBS. a função clear_build_folder sera executada antes).
 gulp.task('watch-dev',['clear_build_folder'], function () {
    liveReload.listen();
-    gulp.start('copy-styles', 'copy-scripts','copy-html');
+    gulp.start('copy-styles', 'copy-scripts','copy-html','copy-images','copy-fonts');
     gulp.watch(config.assets_path+'/**',['copy-styles', 'copy-scripts','copy-html']);
 });
 

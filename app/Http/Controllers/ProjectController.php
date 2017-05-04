@@ -55,7 +55,21 @@ class ProjectController extends Controller
  //      Receives data and save the database (Recebe os dados e salva no banco de dados)
         //nota: Get all values this method '$request->all()' and send from class 'ProjectService' function 'create'
         //nota: Aqui pegamos todos os valores com o metodo '$request->all()' e enviamos para o a classe 'ProjectService' na função 'create'.
-      return  $this->service->create($request->all());
+
+
+        $data = [
+            'owner_id'=>\Authorizer::getResourceOwnerId(),
+            'client_id'=> $request->client_id,
+            'name'=> $request->name,
+            'description'=> $request->description,
+            'progress'=> $request->progress,
+            'status'=> $request->status,
+            'due_date'=> $request->due_date
+
+        ];
+
+    
+      return  $this->service->create($data);
     }
 
     /**
@@ -100,6 +114,8 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
+       
+
         if($this->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }

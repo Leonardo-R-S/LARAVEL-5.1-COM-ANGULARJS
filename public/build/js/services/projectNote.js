@@ -2,9 +2,9 @@ angular.module('app.services').service('ProjectNote',['$resource','appConfig',fu
 
 
     return $resource(appConfig.baseUrl + "/project/:id/note/:idNote",{id:'@id',idNote:'@idNote'},
-        {update:{method:'PUT'},
+        {update:{method:'PUT'}
 
-       get:{method:'GET',
+      /* get:{method:'GET',
         transformResponse: function (data, headers) {
             var headersGetter = headers();
             if(headersGetter['content-type'] == 'application/json'|| headersGetter['content-type'] == 'text/json' ){
@@ -15,10 +15,11 @@ angular.module('app.services').service('ProjectNote',['$resource','appConfig',fu
                 return dataJson[0];
             }
             return data;
+        } }*/
+
+
+
         }
-
-
-        }}
     );
 
 }]);

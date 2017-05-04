@@ -55,7 +55,7 @@ class ClientService
 
         
         try {
-            return $this->repository->skipPresenter()->find($id);
+            return $this->repository->find($id);
         } catch (\Exception $e) {
             return ['error'=>true, 'Desculpe mas nao foi possivel carregar este Cliente'];
 
@@ -68,7 +68,7 @@ class ClientService
     
         try{
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->skipPresenter()->update($data, $id);
+            return $this->repository->update($data, $id);
             
         }catch (ValidationException $e){
             return [

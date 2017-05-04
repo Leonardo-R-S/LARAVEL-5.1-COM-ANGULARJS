@@ -9,8 +9,11 @@
 
 
 	@if(Config::get('app.debug'))
-		<link href="{{ asset('build/css/vendor/bootstrap.min.css') }}" rel="stylesheet"/>
-		<link href="{{ asset('build/css/vendor/bootstrap-theme.min.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/app.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/components.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/flaticon.css') }}" rel="stylesheet"/>
+		<link href="{{ asset('build/css/font-awesome.css') }}" rel="stylesheet"/>
+
 	@else
 
 		<link href="{{ url(elixir('css/all.css')) }}" rel="stylesheet"/>
@@ -84,9 +87,9 @@
 		<script src="{{asset('build/js/vendor/angular-messages.min.js') }}"></script>
 
 		<script src="{{asset('build/js/vendor/query-string.js') }}"></script>
-		<script src="{{asset('build/js/vendor/angular-cookie.min.js') }}"></script>
-		<script src="{{asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
 
+		<script src="{{asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/angular-cookie.min.js') }}"></script>
 		<script src="{{asset('build/js/app.js') }}"></script>
 
 		<!-- CONTROLLERS !-->
@@ -100,6 +103,10 @@
 		<script src="{{asset('build/js/controllers/client/clientRemove.js') }}"></script>
 
 		<script src="{{asset('build/js/controllers/project/projectList.js') }}"></script>
+		<script src="{{asset('build/js/controllers/project/projectNew.js') }}"></script>
+		<script src="{{asset('build/js/controllers/project/project.js') }}"></script>
+		<script src="{{asset('build/js/controllers/project/projectEdit.js') }}"></script>
+		<script src="{{asset('build/js/controllers/project/projectRemove.js') }}"></script>
 
 		<script src="{{asset('build/js/controllers/projectNote/projectNoteList.js') }}"></script>
 		<script src="{{asset('build/js/controllers/projectNote/projectNote.js') }}"></script>
@@ -111,6 +118,7 @@
 		<script src="{{asset('build/js/services/client.js') }}"></script>
 		<script src="{{asset('build/js/services/project.js') }}"></script>
 		<script src="{{asset('build/js/services/projectNote.js') }}"></script>
+		<script src="{{asset('build/js/services/user.js') }}"></script>
 
 
 	@else

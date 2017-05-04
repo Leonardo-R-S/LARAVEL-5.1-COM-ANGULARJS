@@ -64,6 +64,7 @@ Route::post('oauth/access_token', function() {
         Route::delete('{id}', 'ProjectController@destroy');*/
 
     });
+    Route::get('user/authenticated', 'UserController@authenticated');
 
     Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
 

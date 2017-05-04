@@ -10,7 +10,7 @@
                         <thead>
                         <tr>
                             <td>id</td>
-                            <td>Project</td>
+
                             <td>Title</td>
                             <td>Note</td>
                         </tr>
@@ -19,7 +19,7 @@
                         <tr ng-repeat="pN in projectNote">
                             <td>{{pN.id}}</td>
                             <td>{{pN.title}}</td>
-                            <td>{{pN.note}}</td>
+                            <td>{{pN.note | limitTo:70}}...</td>
 
                             <td>
                                 <a ng-href="#/project/{{pN.project_id}}/note/{{pN.id}}" >Note</a>

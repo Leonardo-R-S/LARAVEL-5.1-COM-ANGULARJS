@@ -8,5 +8,5 @@ angular.module('app.controllers').controller('ClientController',['$scope','$rout
 
 
     $scope.clients = Client.get({id:$routeParams.id});
-    console.log($routeParams.id);
+    
 }]);

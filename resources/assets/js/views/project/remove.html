@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Delete the project</div>
+                <div class="panel-body">
+                  <p>Want to delete this project </p>
+
+
+
+                    <ul>
+                        <li><strong>ID Project:</strong>{{project.project_id}}</li>
+                        <li><strong>ID Client:</strong>{{project.client_id}}</li>
+                        <li><strong>Name:</strong>{{project.name}}</li>
+                        <li><strong>Description:</strong>{{project.description}}</li>
+                        <li><strong>Progress:</strong>{{project.progress}}</li>
+                        <li><strong>Status:</strong>{{project.status}}</li>
+                        <li><strong>Due Date:</strong>{{project.due_date}}</li>
+
+
+                    </ul>
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="button" class="btn btn-primary" ng-click="removeProject()">Excluir</button>
+
+
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
