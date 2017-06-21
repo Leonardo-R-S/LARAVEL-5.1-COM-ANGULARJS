@@ -8,5 +8,5 @@ angular.module('app.controllers').controller('ProjectController',['$scope','$rou
 
 
     $scope.project = Project.get({id:$routeParams.id});
-    
+
 }]);

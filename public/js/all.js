@@ -29072,16 +29072,7 @@ this.init=function(g,h){e=g,this.config=h,e.$render=function(){d.render()},b.ite
  */
 'use strict';angular.module('mgcrea.ngStrap.navbar',[]).provider('$navbar',function(){var t=this.defaults={activeClass:'active',routeAttr:'data-match-route',strict:!1};this.$get=function(){return{defaults:t}}}).directive('bsNavbar',['$window','$location','$navbar',function(t,a,r){var e=r.defaults;return{restrict:'A',link:function(t,r,n,i){var c=angular.copy(e);angular.forEach(Object.keys(e),function(t){angular.isDefined(n[t])&&(c[t]=n[t])}),t.$watch(function(){return a.path()},function(t,a){var e=r[0].querySelectorAll('li['+c.routeAttr+']');angular.forEach(e,function(a){var r=angular.element(a),e=r.attr(c.routeAttr).replace('/','\\/');c.strict&&(e='^'+e+'$');var n=new RegExp(e,'i');n.test(t)?r.addClass(c.activeClass):r.removeClass(c.activeClass)})})}}}]);
 //# sourceMappingURL=../modules/navbar.min.js.map
-/*
- AngularJS v1.4.1
- (c) 2010-2015 Google, Inc. http://angularjs.org
- License: MIT
-*/
-(function(p,g,l){'use strict';function m(b,a,f){var c=f.baseHref(),k=b[0];return function(b,d,e){var f,h;e=e||{};h=e.expires;f=g.isDefined(e.path)?e.path:c;d===l&&(h="Thu, 01 Jan 1970 00:00:00 GMT",d="");g.isString(h)&&(h=new Date(h));d=encodeURIComponent(b)+"="+encodeURIComponent(d);d=d+(f?";path="+f:"")+(e.domain?";domain="+e.domain:"");d+=h?";expires="+h.toUTCString():"";d+=e.secure?";secure":"";e=d.length+1;4096<e&&a.warn("Cookie '"+b+"' possibly not set or overflowed because it was too large ("+
-e+" > 4096 bytes)!");k.cookie=d}}g.module("ngCookies",["ng"]).provider("$cookies",[function(){var b=this.defaults={};this.$get=["$$cookieReader","$$cookieWriter",function(a,f){return{get:function(c){return a()[c]},getObject:function(c){return(c=this.get(c))?g.fromJson(c):c},getAll:function(){return a()},put:function(c,a,n){f(c,a,n?g.extend({},b,n):b)},putObject:function(c,b,a){this.put(c,g.toJson(b),a)},remove:function(a,k){f(a,l,k?g.extend({},b,k):b)}}}]}]);g.module("ngCookies").factory("$cookieStore",
-["$cookies",function(b){return{get:function(a){return b.getObject(a)},put:function(a,f){b.putObject(a,f)},remove:function(a){b.remove(a)}}}]);m.$inject=["$document","$log","$browser"];g.module("ngCookies").provider("$$cookieWriter",function(){this.$get=m})})(window,window.angular);
-//# sourceMappingURL=angular-cookies.min.js.map
-
+angular.module("ivpusic.cookie",["ipCookie"]),angular.module("ipCookie",["ng"]).factory("ipCookie",["$document",function(e){"use strict";function i(e){try{return decodeURIComponent(e)}catch(i){}}return function(){function t(t,n,r){var o,s,p,u,a,c,d,x,f;r=r||{};var g=r.decode||i,l=r.encode||encodeURIComponent;if(void 0!==n)return n="object"==typeof n?JSON.stringify(n):n+"","number"==typeof r.expires&&(f=r.expires,r.expires=new Date,-1===f?r.expires=new Date("Thu, 01 Jan 1970 00:00:00 GMT"):void 0!==r.expirationUnit?"hours"===r.expirationUnit?r.expires.setHours(r.expires.getHours()+f):"minutes"===r.expirationUnit?r.expires.setMinutes(r.expires.getMinutes()+f):"seconds"===r.expirationUnit?r.expires.setSeconds(r.expires.getSeconds()+f):"milliseconds"===r.expirationUnit?r.expires.setMilliseconds(r.expires.getMilliseconds()+f):r.expires.setDate(r.expires.getDate()+f):r.expires.setDate(r.expires.getDate()+f)),e[0].cookie=[l(t),"=",l(n),r.expires?"; expires="+r.expires.toUTCString():"",r.path?"; path="+r.path:"",r.domain?"; domain="+r.domain:"",r.secure?"; secure":""].join("");for(s=[],x=e[0].cookie,x&&(s=x.split("; ")),o={},d=!1,p=0;s.length>p;++p)if(s[p]){if(u=s[p],a=u.indexOf("="),c=u.substring(0,a),n=g(u.substring(a+1)),angular.isUndefined(n))continue;if(void 0===t||t===c){try{o[c]=JSON.parse(n)}catch(m){o[c]=n}if(t===c)return o[c];d=!0}}return d&&void 0===t?o:void 0}return t.remove=function(e,i){var n=void 0!==t(e);return n&&(i||(i={}),i.expires=-1,t(e,"",i)),n},t}()}]);
 /*!
 	query-string
 	Parse and stringify URL query strings
@@ -29154,11 +29145,13 @@ e+" > 4096 bytes)!");k.cookie=d}}g.module("ngCookies",["ng"]).provider("$cookies
  * Created by LeoTJ on 28/02/2017.
  */
 
-var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','app.services']);
+var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','ipCookie','app.services','app.filters']);
 
-angular.module('app.controllers',['ngMessages','angular-oauth2']);
+angular.module('app.controllers',['ngMessages','angular-oauth2','ipCookie']);
+
+angular.module('app.filters',[]);
+
 angular.module('app.services',['ngResource']);
-
 
 app.provider('appConfig',function () {
     //Isso é o que ele deve retornar como valor
@@ -29222,10 +29215,31 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
             templateUrl:'build/views/client/remove.html',
             controller:'ClientRemoveController'
         })
+
+
         .when('/projects',{
             templateUrl:'build/views/project/list.html',
             controller:'ProjectListController'
         })
+        .when('/projects/new',{
+            templateUrl:'build/views/project/new.html',
+            controller:'ProjectNewController'
+        })
+        .when('/projects/:id',{
+            templateUrl:'build/views/project/project.html',
+            controller:'ProjectController'
+        })
+        .when('/projects/:id/edit',{
+            templateUrl:'build/views/project/edit.html',
+            controller:'ProjectEditController'
+        })
+        .when('/projects/:id/remove',{
+            templateUrl:'build/views/project/remove.html',
+            controller:'ProjectRemoveController'
+        })
+
+
+
         .when('/project/:id/notes',{
             templateUrl:'build/views/projectNote/list.html',
             controller:'ProjectNoteListController'
@@ -29282,11 +29296,11 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth) 
 /**
  * Created by LeoTJ on 28/02/2017.
  */
-angular.module('app.controllers').controller('HomeController',['$scope','$cookies',function ($scope,$cookies) {
-    console.log($cookies.getObject('user').email);
+angular.module('app.controllers').controller('HomeController',['$scope','ipCookie',function ($scope,ipCookie) {
+    console.log(ipCookie('user').email);
 
 }]);
-angular.module('app.controllers').controller('LoginController',['$scope','$location','$cookies','User','OAuth',function ($scope,$location,$cookies,User,OAuth) {
+angular.module('app.controllers').controller('LoginController',['$scope','$location','ipCookie','User','OAuth',function ($scope,$location,ipCookie,User,OAuth) {
     $scope.user = {
         username:'',
         password:''
@@ -29301,7 +29315,7 @@ angular.module('app.controllers').controller('LoginController',['$scope','$locat
        if($scope.form.$valid) {
            OAuth.getAccessToken($scope.user).then(function () {
                User.authenticated({},{},function (data) {
-                  $cookies.putObject('user',data);
+                   ipCookie('user',data);
                    $location.path('home');
                });
 
@@ -29312,6 +29326,16 @@ angular.module('app.controllers').controller('LoginController',['$scope','$locat
        }
     };
 }]);
+/**
+ * Created by LeoTJ on 08/05/2017.
+ */
+angular.module('app.filters').filter('dateBr', ['$filter', function ($filter) {
+
+    return function (dados) {
+        return $filter('date')(dados, 'dd/MM/yyyy');
+    }
+
+}]);
 angular.module('app.services').service('Client',['$resource','appConfig',function ($resource,appConfig) {
 
     return $resource(appConfig.baseUrl + '/client/:id',{id:'@id'},
@@ -29321,8 +29345,10 @@ angular.module('app.services').service('Client',['$resource','appConfig',functio
 }]);
 angular.module('app.services').service('Project',['$resource','appConfig',function ($resource,appConfig) {
 
+    console.log(appConfig.baseUrl + '/project/');
     return $resource(appConfig.baseUrl + '/project/:id',{id:'@id'},
         {update:{method:'PUT'}}
+
     );
 
 }]);
@@ -29355,7 +29381,7 @@ angular.module('app.services').service('User',['$resource','appConfig',function 
 
     return $resource(appConfig.baseUrl + '/user',{},
             {authenticated:{
-                url:appConfig.baseURI + '/user/authenticated',
+                url:appConfig.baseUrl  + '/user/authenticated',
                 method:'GET'
             }}
     );
@@ -29371,7 +29397,7 @@ angular.module('app.controllers').controller('ClientController',['$scope','$rout
 
 
     $scope.clients = Client.get({id:$routeParams.id});
-    console.log($routeParams.id);
+    
 }]);
 //$scope = Recupera todos os valores do formulario
 //$location = Redirecionados
@@ -29442,11 +29468,93 @@ angular.module('app.controllers').controller('ClientRemoveController',['$scope',
 //$routeParams = Recupera valor da URL
 //Client = Aqui e a entidade de dados
 
+angular.module('app.controllers').controller('ProjectController',['$scope','$routeParams','Project',function ($scope,$routeParams,Project) {
+
+
+
+    $scope.project = Project.get({id:$routeParams.id});
+
+}]);
+//$scope = Recupera todos os valores do formulario
+//$location = Redirecionados
+//$routeParams = Recupera valor da URL
+//Client = Aqui e a entidade de dados
+
+angular.module('app.controllers').controller('ProjectEditController',['$scope','$routeParams','$location','Project','Client',function ($scope,$routeParams,$location,Project,Client) {
+
+    $scope.project = Project.get({id:$routeParams.id});
+    $scope.clients = Client.query();
+
+    $scope.saveProject = function () {
+
+        if($scope.form.$valid) {
+
+            Project.update({id:$scope.project.project_id},$scope.project, function () {
+                $location.path('/projects');
+            });
+        }
+    }
+}]);
+//$scope = Recupera todos os valores do formulario
+//$location = Redirecionados
+//$routeParams = Recupera valor da URL
+//Client = Aqui e a entidade de dados
+
 angular.module('app.controllers').controller('ProjectListController',['$scope','Project',function ($scope,Project) {
 
 
     $scope.project = Project.query();
 
+}]);
+//$scope = Recupera todos os valores do formulario
+//$location = Redirecionados
+//$routeParams = Recupera valor da URL
+//Client = Aqui e a entidade de dados
+
+angular.module('app.controllers').controller('ProjectNewController',['$scope','$location','Project','Client',function ($scope,$location,Project,Client) {
+
+    $scope.project = new Project();
+
+    $scope.clients = Client.query();
+
+    
+    $scope.options = [
+    {name: "Options 1", value: "11"},
+    {name: "Options 2", value: "22"},
+    {name: "Options 3", value: "33"}
+    ];
+
+
+
+    $scope.saveProject = function () {
+        if($scope.form.$valid) {
+            $scope.project.$save().then(function () {
+                $location.path('/projects');
+            })
+        }
+    }
+}]);
+
+
+//$scope = Recupera todos os valores do formulario
+//$location = Redirecionados
+//$routeParams = Recupera valor da URL
+//Client = Aqui e a entidade de dados
+
+angular.module('app.controllers').controller('ProjectRemoveController',['$scope','$routeParams','$location','Project',function ($scope,$routeParams,$location,Project) {
+
+    var id = $routeParams.id;
+
+
+    $scope.project = Project.get({id:id});
+  
+    $scope.removeProject = function () {
+        $scope.project.$delete({id:id}).then(function () {
+            $location.path('/projects');
+        });
+
+
+    }
 }]);
 //$scope = Recupera todos os valores do formulario
 //$location = Redirecionados

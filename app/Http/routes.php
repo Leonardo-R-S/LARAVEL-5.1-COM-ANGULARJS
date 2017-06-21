@@ -31,6 +31,9 @@ Route::post('oauth/access_token', function() {
     //Incerts the value of prefix in rotas(Incere o valor do profixo nas rotas)
     Route::group(['prefix'=>'project'],function(){
 
+
+
+
         Route::get('{id}/note', 'ProjectNoteController@index');
         Route::post('{id}/note', 'ProjectNoteController@store');
         Route::put('{id}/note/{noteId}', 'ProjectNoteController@update');
@@ -49,19 +52,16 @@ Route::post('oauth/access_token', function() {
         Route::get('{id}/members/{memberId}', 'ProjectController@isMember');
 
 
+        Route::post('{id}/file', 'ProjectFileController@store');
         Route::get('{id}/file', 'ProjectFileController@index');
         Route::get('{id}/file/{fileId}', 'ProjectFileController@show');
-        Route::post('{id}/file/{fileId}', 'ProjectFileController@update');
-        Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 
+        Route::put('{id}/file/{fileId}', 'ProjectFileController@update');
+        Route::get('file/{fileId}/download', 'ProjectFileController@showFile');
 
         Route::post('{id}/file', 'ProjectFileController@store');
+        Route::delete('{id}/file/{fileId}', 'ProjectFileController@destroy');
 
-
-
-       /* Route::get('{id}', 'ProjectController@show');
-        Route::put('{id}', 'ProjectController@update');
-        Route::delete('{id}', 'ProjectController@destroy');*/
 
     });
     Route::get('user/authenticated', 'UserController@authenticated');

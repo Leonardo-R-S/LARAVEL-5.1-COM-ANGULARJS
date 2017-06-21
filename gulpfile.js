@@ -25,13 +25,14 @@ config.vendor_path_js= [
     config.bower_path+'/angular-resource/angular-resource.js',
     config.bower_path+'/angular-animate/angular-animate.min.js',
     config.bower_path+'/angular-messages/angular-messages.min.js',
-    config.bower_path+'/angular-bootstrap/ui-bootstrap.min.js',
+    config.bower_path+'/angular-bootstrap/ui-bootstrap-tpls.min.js',
     config.bower_path+'/angular-strap/dist/modules/navbar.min.js',
 
     config.bower_path+'/angular-cookie/angular-cookie.min.js',
 
     config.bower_path+'/query-string/query-string.js',
-    config.bower_path+'/angular-oauth2/dist/angular-oauth2.min.js'
+    config.bower_path+'/angular-oauth2/dist/angular-oauth2.min.js',
+    config.bower_path+'/ng-file-upload/ng-file-upload.min.js'
 
 ];
 
@@ -97,9 +98,9 @@ gulp.task('copy-styles', function () {
     gulp.src(config.vendor_path_css)
         .pipe(gulp.dest(config.build_vendor_path_css))
         .pipe(liveReload());
-
-
 });
+
+
 //Função para verificar os arquivos java script e copialos para outra pasta
 gulp.task('copy-scripts', function () {
     //Busca todos os arquivos css nas sub pastas
@@ -133,7 +134,7 @@ gulp.task('default',['clear_build_folder'], function () {
 //Função que executa o metodo listen, e chama copy-styles e copy-scripts (OBS. a função clear_build_folder sera executada antes).
 gulp.task('watch-dev',['clear_build_folder'], function () {
    liveReload.listen();
-    gulp.start('copy-styles', 'copy-scripts','copy-html','copy-images','copy-fonts');
+    gulp.start('copy-styles','copy-scripts','copy-html','copy-images','copy-fonts');
     gulp.watch(config.assets_path+'/**',['copy-styles', 'copy-scripts','copy-html']);
 });
 

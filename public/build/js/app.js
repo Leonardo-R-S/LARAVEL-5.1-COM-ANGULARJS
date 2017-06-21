@@ -2,17 +2,54 @@
  * Created by LeoTJ on 28/02/2017.
  */
 
-var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','ipCookie','app.services']);
+var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','ipCookie','app.services','app.filters','app.directives',
+                                'ui.bootstrap.typeahead','ui.bootstrap.datepicker','ui.bootstrap.tpls','ngFileUpload']);
 
 angular.module('app.controllers',['ngMessages','angular-oauth2','ipCookie']);
 
+angular.module('app.filters',[]);
+
+angular.module('app.directives',[]);
+
 angular.module('app.services',['ngResource']);
 
-app.provider('appConfig',function () {
+app.provider('appConfig',['$httpParamSerializerProvider',function ($httpParamSerializerProvider) {
     //Isso é o que ele deve retornar como valor
     var config = {
         //Aqui indica o caminho da aplicação
-        baseUrl: 'http://localhost/CursoLaravelAngular/public'
+        baseUrl: 'http://localhost/CursoLaravelAngular/public',
+        project:{
+            status:[
+                {value: 1, label: 'Não iniciado'},
+                {value: 2, label: 'Iniciado'},
+                {value: 3, label: 'Concluido'}
+            ]
+
+        },
+        urls:{
+            projectFile:'/project/{{id}}/file/{{idFile}}'
+        },
+        
+        utils: {
+            transformRequest: function (data) {
+                if(angular.isObject(data)){
+                    return $httpParamSerializerProvider.$get()(data);
+                }
+                return data;
+            },
+
+            transformResponse: function (data, headers) {
+                var headersGetter = headers();
+                if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json') {
+                    var dataJson = JSON.parse(data);
+                    if (dataJson.hasOwnProperty('data')) {
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson;
+                }
+                return data;
+            }
+        }
     };
     return{
         //Variavel config recebe config
@@ -23,22 +60,17 @@ app.provider('appConfig',function () {
         }
     }
 
-});
+}]);
 
 //Este config so aceita provaders
 app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider','appConfigProvider',function ($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider,appConfigProvider) {
+    //Adiciona no cabeçalho que o pode enviar o form POST e PUT com a url encode ou serializado
 
-    $httpProvider.defaults.transformResponse = function (data, headers) {
-      var headersGetter = headers();
-      if(headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json'){
-          var dataJson = JSON.parse(data);
-          if(dataJson.hasOwnProperty('data')){
-              dataJson = dataJson.data;
-          }
-          return dataJson;
-      }
-        return data;
-    };
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+    $httpProvider.defaults.transformRequest = appConfigProvider.config.utils.transformRequest;
+    $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
 
     $routeProvider
 
@@ -50,6 +82,7 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
             templateUrl:'build/views/home.html',
             controller:'HomeController'
         })
+        //Routes of clients
          .when('/clients',{
             templateUrl:'build/views/client/list.html',
             controller:'ClientListController'
@@ -71,7 +104,7 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
             controller:'ClientRemoveController'
         })
 
-
+        //Routes of Projects
         .when('/projects',{
             templateUrl:'build/views/project/list.html',
             controller:'ProjectListController'
@@ -94,7 +127,7 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
         })
 
 
-
+        //Routes of Project Notes
         .when('/project/:id/notes',{
             templateUrl:'build/views/projectNote/list.html',
             controller:'ProjectNoteListController'
@@ -114,10 +147,37 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
         .when('/project/:id/note/:idNote/remove',{
             templateUrl:'build/views/projectNote/remove.html',
             controller:'ProjectNoteRemoveController'
+        })
+
+        //Routes of Files
+        .when('/project/:id/files',{
+            templateUrl:'build/views/projectFile/list.html',
+            controller:'ProjectFileListController'
+        })
+        
+        .when('/project/:id/files/new',{
+            templateUrl:'build/views/projectFile/new.html',
+            controller:'ProjectFileNewController'
+        })
+        .when('/project/:id/files/:idFile/edit',{
+            templateUrl:'build/views/projectFile/edit.html',
+            controller:'ProjectFileEditController'
+        })
+        .when('/project/:id/files/:idFile/remove',{
+            templateUrl:'build/views/projectFile/remove.html',
+            controller:'ProjectFileRemoveController'
         });
 
-        OAuthProvider.configure({
-        //Busca balor no appConfig
+
+
+
+
+
+
+
+
+    OAuthProvider.configure({
+        //Search the value in appConfig (Buscar valor no appConfig)
         baseUrl: appConfigProvider.config.baseUrl,
         clientId: 'appid1',
         clientSecret: 'secret', // optional

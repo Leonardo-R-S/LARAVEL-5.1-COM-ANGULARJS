@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">List of Projects <a class="col-md-offset-10" ng-href="#/projects/new" >New project</a> </div>
+                <div class="panel-heading">List of Projects TT <a class="col-md-offset-10" ng-href="#/projects/new" >New project</a> </div>
                 <div class="panel-body">
                     <table class="table table-striped" >
                         <thead>
@@ -23,12 +23,13 @@
                         <tr ng-repeat="p in project">
                             <td>{{p.id}}</td>
                             <td>{{p.owner_id}}</td>
-                            <td>{{p.client_id}}</td>
+                            <!-- Buscando o cliente que junto com os projetos -->
+                            <td>{{p.client.name}}</td>
                             <td>{{p.name}}</td>
                             <td>{{p.description | limitTo:70}}...</td>
                             <td>{{p.progress}}</td>
                             <td>{{p.status}}</td>
-                            <td>{{p.due_date}}</td>
+                            <td>{{p.due_date | dateBr }}</td>
                             <td>
                                 <a ng-href="#/project/{{p.id}}/notes" >Notes</a> /
                                 <a ng-href="#/projects/{{p.id}}" >Open</a>

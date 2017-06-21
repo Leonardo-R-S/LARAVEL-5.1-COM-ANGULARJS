@@ -1,0 +1,39 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div   class="panel panel-default">
+                <div class="panel-heading col-md-offset-*">List of Files of Project B<a ng-repeat="pN in projectFiles | limitTo:1" class="col-md-offset-10" ng-href="#/project/{{pN.project_id}}/files/new" >New File</a></div>
+
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>Name</td>
+
+                            <td>Description</td>
+                            <td>File</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pN in projectFiles">
+
+                            <td>{{pN.name}}</td>
+                            <td>{{pN.name}}</td>
+                            <td>{{pN.description | limitTo:70}}...</td>
+                            <td><project-file-download id-file="{{pN.id}}"></project-file-download></td>
+                            <td>
+                                <a ng-href="#/project/{{pN.project_id}}/files/{{pN.id}}/edit" >Edit</a> /
+                                <a ng-href="#/project/{{pN.project_id}}/files/{{pN.id}}/remove" >Remove</a>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

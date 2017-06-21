@@ -12,12 +12,11 @@ namespace CodeProject\Services;
 
 
 use CodeProject\Repositories\ProjectFileRepository;
-
-
 use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Validators\ProjectFileValidator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
-
+use Prettus\Validator\Contracts\ValidatorInterface;
 
 
 class ProjectFileService
@@ -35,14 +34,16 @@ class ProjectFileService
     protected $filesystem;
     private $projectRepository;
     protected $storage;
+    protected $validator;
 
 
-     public function __construct(ProjectFileRepository $repository,ProjectRepository $projectRepository, Filesystem $filesystem, Storage $storage)
+     public function __construct(ProjectFileRepository $repository,ProjectFileValidator $validator ,ProjectRepository $projectRepository, Filesystem $filesystem, Storage $storage)
     {
         $this->repository = $repository;
         $this->projectRepository = $projectRepository;
         $this->filesystem = $filesystem;
         $this->storage = $storage;
+        $this->validator = $validator;
 
 
     }
@@ -50,16 +51,35 @@ class ProjectFileService
 
 //////////////////////// Initiate ProjectFile (Inicia ProjectFile) ////////////////////////////////////
     public function  createFile(array $data){
+        
+
+        try {
+
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
+
+            $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
+
+            $projectFile = $project->files()->create($data);
+
+            $this->storage->put($projectFile->getFileName(), $this->filesystem->get($data['file']));
+
+            return $projectFile;
+
+        } catch (ValidatorException $e) {
+
+            return [
+                'error' => true,
+                'message' => $e->getMessageBag()
+            ];
+
+        }
 
 
-        $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
-
-        $projectFile = $project->files()->create($data);
-
-        $this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']));
     }
 
     public function  indexFile($id){
+
+
 
         return $this->repository->findWhere(['project_id'=>$id]);
 
@@ -67,26 +87,53 @@ class ProjectFileService
     }
     public function  showFile($id, $fileId){
 
+        try {
+            return $this->repository->find($fileId);
 
-        return $this->repository->find($fileId);
+        } catch (\Exception $e) {
+            return ['error' => true, 'Desculpe  mas nao foi possivel carregar este Arquivo'];
+
+        }
+
+
 
     }
-    public function update($request, $fileId)
+    public function update($data, $fileId)
     {
         try {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
-            $data['name'] = $request->name;
-            $data['description'] = $request->description;
-            $data['project_id'] = $request->project_id;
+
 
             return $this->repository->update($data, $fileId);
+        }catch (ValidatorException $e){
 
-
+                return [
+                    'error' => true,
+                    'message' => $e->getMessageBag()
+                ];
 
         } catch (\Exception $e) {
             return ['error'=>true, 'Ocorreu algum erro ao aterar o arquivo.'];
         }
 
+    }
+
+    public function getFilePath($id){
+        $projectFile = $this->repository->skipPresenter()->find($id);
+        return $this->getBaseURL($projectFile);
+    }
+
+    public function getFileName($id){
+        $projectFile = $this->repository->skipPresenter()->find($id);
+        return $projectFile->getFileName();
+    }
+
+    public function getBaseURL($projectFile){
+        switch ($this->storage->getDefaultDriver()){
+            case 'local':
+                return $this->storage->getDriver()->getAdapter()->getPathPrefix().'/'.$projectFile->getFileName();
+        }
 
 
     }
@@ -95,11 +142,14 @@ class ProjectFileService
     {
 
         try {
+
             $file =  $this->repository->skipPresenter()->find($fileId);
 
 
-           if($this->storage->delete($file->id.'.'.$file->extension)){
-               $this->repository->find($fileId)->delete();
+           if($this->storage->exists($file->getFileName())){
+
+                $this->storage->delete($file->getFileName());
+                $this->repository->find($fileId)->delete();
            }else{
                return ['success'=>true, 'Desculpe não foi possivel excluir o arquivo.'];
            }
@@ -111,9 +161,33 @@ class ProjectFileService
             return ['error'=>true, 'Ocorreu algum erro ao excluir o arquivo.'];
         }
 
+    }
+
+    //////////////////////// Initiate access validation (Inicia validação de acesso) ////////////////////////////////////
+    public function checkProjectOwner($projectID){
 
 
-          
+        $userId = \Authorizer::getResourceOwnerId();
+
+
+        return $this->projectRepository->isOwner($projectID, $userId);
+
+
+    }
+    public function checkProjectMember($projectID){
+        $userId = \Authorizer::getResourceOwnerId();
+     
+        return $this->projectRepository->hasMember($projectID, $userId);
+    }
+
+
+    public  function checkProjectPermissions($projectID){
+
+
+        if($this->checkProjectOwner($projectID)or $this->checkProjectMember($projectID)){
+            return true;
+        }
+        return false;
     }
 
 }

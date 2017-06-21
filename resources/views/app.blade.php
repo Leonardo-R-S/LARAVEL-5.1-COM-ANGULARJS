@@ -82,7 +82,7 @@
 		<script src="{{asset('build/js/vendor/angular-resource.js') }}"></script>
 		<script src="{{asset('build/js/vendor/angular-animate.min.js') }}"></script>
 
-		<script src="{{asset('build/js/vendor/ui-bootstrap.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/ui-bootstrap-tpls.min.js') }}"></script>
 		<script src="{{asset('build/js/vendor/navbar.min.js') }}"></script>
 		<script src="{{asset('build/js/vendor/angular-messages.min.js') }}"></script>
 
@@ -90,6 +90,8 @@
 
 		<script src="{{asset('build/js/vendor/angular-oauth2.min.js') }}"></script>
 		<script src="{{asset('build/js/vendor/angular-cookie.min.js') }}"></script>
+		<script src="{{asset('build/js/vendor/ng-file-upload.min.js') }}"></script>
+
 		<script src="{{asset('build/js/app.js') }}"></script>
 
 		<!-- CONTROLLERS !-->
@@ -114,10 +116,24 @@
 		<script src="{{asset('build/js/controllers/projectNote/projectNoteEdit.js') }}"></script>
 		<script src="{{asset('build/js/controllers/projectNote/projectNoteRemove.js') }}"></script>
 
+		<script src="{{asset('build/js/controllers/projectFile/projectFileList.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectFile/projectFile.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectFile/projectFileNew.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectFile/projectFileEdit.js') }}"></script>
+		<script src="{{asset('build/js/controllers/projectFile/projectFileRemove.js') }}"></script>
+
+		<!-- DIRECTIVES !-->
+		<script src="{{asset('build/js/directives/projectFileDownload.js') }}"></script>
+
+		<!-- FILTERS !-->
+		<script src="{{asset('build/js/filters/date-br.js') }}"></script>
+
 		<!-- SERVICES !-->
+		<script src="{{asset('build/js/services/url.js') }}"></script>
 		<script src="{{asset('build/js/services/client.js') }}"></script>
 		<script src="{{asset('build/js/services/project.js') }}"></script>
 		<script src="{{asset('build/js/services/projectNote.js') }}"></script>
+		<script src="{{asset('build/js/services/projectFile.js') }}"></script>
 		<script src="{{asset('build/js/services/user.js') }}"></script>
 
 

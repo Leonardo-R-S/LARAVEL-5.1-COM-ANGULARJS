@@ -28,7 +28,7 @@ class ProjectTransformer extends TransformerAbstract
           'client_id'    => $project->client_id,
           'owner_id'    => $project->owner_id,
           'description'=> $project->description,
-          'progress'   => $project->progress,
+          'progress'   => (int)$project->progress,
           'status'     => $project->status,
           'due_date'   => $project->due_date,
         ];
@@ -37,7 +37,7 @@ class ProjectTransformer extends TransformerAbstract
 
 
     public function includeMembers(Project $project){
-           
+
             return $this->collection($project->members, new ProjectMemberTransformer());
 
     }
