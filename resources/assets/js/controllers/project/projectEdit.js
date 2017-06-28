@@ -5,8 +5,10 @@
 
 angular.module('app.controllers').controller('ProjectEditController',['$scope','$routeParams','$location','Project','Client','appConfig',function ($scope,$routeParams,$location,Project,Client,appConfig) {
 
+    
     Project.get({id:$routeParams.id}, function (data) {
         $scope.project = data;
+
         Client.get({id:data.client_id},function (data) {
             $scope.clientSelected = data;
 
@@ -32,7 +34,7 @@ angular.module('app.controllers').controller('ProjectEditController',['$scope','
 
         if($scope.form.$valid) {
 
-            Project.update({id:$scope.project.project_id},$scope.project, function () {
+            Project.update({id:$scope.project.id},$scope.project, function () {
                 $location.path('/projects');
             });
         }

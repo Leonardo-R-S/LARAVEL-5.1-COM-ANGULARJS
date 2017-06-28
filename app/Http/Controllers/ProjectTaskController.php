@@ -35,12 +35,14 @@ class ProjectTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
 
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-
-        return $this->service->index();
+        if($this->service->checkProjectPermissions($id)==false){
+            return ['error'=>'Access forbidden'];
+        }
+        return $this->service->index($id);
     }
 
 
@@ -51,16 +53,20 @@ class ProjectTaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
- public function store(Request $request)
+ public function store(Request $request, $id)
  {
-     if($this->checkProjectPermissions($request->project_id)==false){
+     if($this->service->checkProjectPermissions($id)==false){
          return ['error'=>'Access forbidden'];
      }
 
   //      Receives data and save the database (Recebe os dados e salva no banco de dados)
   //nota: Get all values this method '$request->all()' and send from class 'ProjectTaskService' function 'create'
   //nota: Aqui pegamos todos os valores com o metodo '$request->all()' e enviamos para o a classe 'ProjectTaskService' na função 'create'.
-    return  $this->service->create($request->all());
+
+
+    $data =  $request->all();
+    $data['project_id'] = $id;
+    return  $this->service->create($data);
  }
 
  /**
@@ -69,16 +75,14 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $idTask)
     {
-        $idProject = $this->repository->skipPresenter()->find($id);
-
-        if($this->checkProjectPermissions($idProject->project_id)==false){
+        if($this->service->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 
 //      Returns the value of the id (Retorna o valor do id)
-        return $this->service->show($id);
+        return $this->service->show($idTask);
     }
 
 
@@ -90,16 +94,14 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
- public function update(Request $request, $id)
+ public function update(Request $request, $id, $idTask)
  {
 
-     if($this->checkProjectPermissions($request->project_id)==false){
+     if($this->service->checkProjectPermissions($id)==false){
          return ['error'=>'Access forbidden'];
      }
-
-
 //        Retrieves the data of the projectTask to according to ID and save the changes(Recupera os dados do projectTask de acordo com ID e salva as alterações feitas)
-  return $this->service->update($request->all(), $id);
+    return $this->service->update($request->all(), $idTask);
  }
 
 
@@ -109,37 +111,18 @@ class ProjectTaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id ,$idTask)
     {
-        $idProject = $this->repository->skipPresenter()->find($id);
 
-        if($this->checkProjectPermissions($idProject->project_id)==false){
+
+        if($this->service->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 
 //      Retrieves the data of the projectTask and delete (Recupera os dados e os deleta)
-     return $this->service->destroy($id);
+     return $this->service->destroy($idTask);
     }
 
-    //////////////////////// Initiate access validation (Inicia validação de acesso) ////////////////////////////////////
-    private function checkProjectOwner($projectID){
-
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->projectRepository->isOwner($projectID, $userId);
-
-
-    }
-    private function checkProjectMember($projectID){
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->projectRepository->hasMember($projectID, $userId);
-    }
-
-
-    private  function checkProjectPermissions($projectID){
-        if($this->checkProjectOwner($projectID)or $this->checkProjectMember($projectID)){
-            return true;
-        }
-        return false;
-    }
+   
 
 }

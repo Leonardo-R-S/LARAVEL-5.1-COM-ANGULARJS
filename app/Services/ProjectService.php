@@ -48,6 +48,7 @@ class ProjectService
         $this->membersRepository = $membersRepository;
         $this->membersValidator = $membersValidator;
 
+
     }
 
 //Function resposible for recover data from 'project','user' and 'client'(Função responsavel por recuperar dados do 'project','usuario' e 'cliente')
@@ -209,7 +210,7 @@ class ProjectService
     //////////////////////// Initiate access validation (Inicia validação de acesso) ////////////////////////////////////
     public function checkProjectOwner($projectID)
     {
-
+        dd(\Authorizer::getResourceOwnerId());
         $userId = \Authorizer::getResourceOwnerId();
 
         return $this->repository->isOwner($projectID, $userId);

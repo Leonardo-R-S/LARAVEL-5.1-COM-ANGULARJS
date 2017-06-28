@@ -33,6 +33,8 @@ class ProjectController extends Controller
         $this->repository = $repository;
         $this->service = $service;
         $this->middleware('oauth');
+        $this->middleware('check-project-owner',['except'=>['index','store','show']]);
+        $this->middleware('check-project-permission',['except'=>['index','store','update','destroy']]);
 
     }
 
@@ -40,7 +42,7 @@ class ProjectController extends Controller
     {
 
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        return $this->repository->skipPresenter()->with('user')->with('client')->findWhere(['owner_id'=>\Authorizer::getResourceOwnerId()]);
+        return $this->repository->findWithOwnerAndMember(\Authorizer::getResourceOwnerId());
     }
 
     /**

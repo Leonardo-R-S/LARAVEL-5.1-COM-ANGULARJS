@@ -26,10 +26,10 @@ Route::post('oauth/access_token', function() {
     //Identifies what action and send to controller
     Route::resource('client', 'ClientController', ['except'=>['create','edit']]);
 
-
+    Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
 
     //Incerts the value of prefix in rotas(Incere o valor do profixo nas rotas)
-    Route::group(['prefix'=>'project'],function(){
+    Route::group(['middleware'=>'check-project-permission','prefix'=>'project'],function(){
 
 
 
@@ -40,11 +40,11 @@ Route::post('oauth/access_token', function() {
         Route::get('{id}/note/{noteId}', 'ProjectNoteController@show');
         Route::delete('note/{noteId}', 'ProjectNoteController@destroy');
 
-        Route::get('task', 'ProjectTaskController@index');
-        Route::post('task', 'ProjectTaskController@store');
-        Route::post('task/{id}', 'ProjectTaskController@update');
-        Route::get('task/{id}', 'ProjectTaskController@show');
-        Route::delete('task/{id}', 'ProjectTaskController@destroy');
+        Route::get('{id}/task', 'ProjectTaskController@index');
+        Route::post('{id}/task', 'ProjectTaskController@store');
+        Route::put('{id}/task/{idTask}', 'ProjectTaskController@update');
+        Route::get('{id}/task/{idTask}', 'ProjectTaskController@show');
+        Route::delete('{id}/task/{idTask}', 'ProjectTaskController@destroy');
 
         Route::get('{id}/members', 'ProjectController@showmembers');
         Route::post('{id}/members', 'ProjectController@storemembers');
@@ -66,7 +66,7 @@ Route::post('oauth/access_token', function() {
     });
     Route::get('user/authenticated', 'UserController@authenticated');
 
-    Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
+
 
 
 

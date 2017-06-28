@@ -45,7 +45,7 @@ class ProjectNoteController extends Controller
 
     public function index($id)
     {
-       
+      
         if($this->checkProjectPermissions($id)==false){
         return ['error'=>'Access forbidden'];
          }

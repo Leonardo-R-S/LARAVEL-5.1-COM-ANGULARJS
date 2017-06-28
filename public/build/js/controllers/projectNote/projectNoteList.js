@@ -9,5 +9,5 @@ angular.module('app.controllers').controller('ProjectNoteListController',['$scop
 
 
     $scope.projectNote = ProjectNote.query({id:$routeParams.id});
-   
+    
 }]);

@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="p in project">
-                            <td>{{p.id}}</td>
+                            <td>{{p.project_id}}</td>
                             <td>{{p.owner_id}}</td>
                             <!-- Buscando o cliente que junto com os projetos -->
                             <td>{{p.client.name}}</td>
@@ -31,8 +31,8 @@
                             <td>{{p.status}}</td>
                             <td>{{p.due_date | dateBr }}</td>
                             <td>
-                                <a ng-href="#/project/{{p.id}}/notes" >Notes</a> /
-                                <a ng-href="#/projects/{{p.id}}" >Open</a>
+                                <a ng-href="#/project/{{p.project_id}}/notes" >Notes</a> /
+                                <a ng-href="#/projects/{{p.project_id}}" >Open</a>
 
 
                             </td>
