@@ -1,0 +1,37 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div   class="panel panel-default">
+                <div class="panel-heading col-md-offset-*">List of Members Project<a ng-repeat="pN in projectMember| limitTo:1" class="col-md-offset-9" ng-href="#/project/{{pN.project_id}}/member/new" >New member</a></div>
+
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <td>Id of Member</td>
+
+                            <td>Name</td>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="pN in projectMember">
+                            <td>{{pN.user.id}}</td>
+                            <td>{{pN.user.name}}</td>
+
+
+                            <td>
+                                <a ng-href="#/project/{{pN.project_id}}/member/{{pN.id}}/remove" >Delete</a>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

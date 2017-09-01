@@ -12,7 +12,7 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 //        Delete the data old (Deleta os dados antigos)
-        //\CodeProject\Entities\User::truncate();
+        CodeProject\Entities\User::truncate();
 //        Create new false data (Cria novos dados falsos)
         factory(\CodeProject\Entities\User::class)->create([
             'name' => 'leo',

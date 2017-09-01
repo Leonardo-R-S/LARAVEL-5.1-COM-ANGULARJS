@@ -3,6 +3,7 @@
 namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Services\PermissionsService;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
@@ -25,13 +26,16 @@ class ProjectController extends Controller
 //Declares this variable as private (Declara essa variavel como privad)
     private $service;
 
+    private $PermissionsService;
 
 
 
-    public function __construct(ProjectRepository $repository,ProjectService $service)
+
+    public function __construct(ProjectRepository $repository,ProjectService $service, PermissionsService $PermissionsService)
     {
         $this->repository = $repository;
         $this->service = $service;
+        $this->PermissionsService = $PermissionsService;
         $this->middleware('oauth');
         $this->middleware('check-project-owner',['except'=>['index','store','show']]);
         $this->middleware('check-project-permission',['except'=>['index','store','update','destroy']]);
@@ -70,8 +74,8 @@ class ProjectController extends Controller
     public function show($id)
     {
 
-        
-        if($this->service->checkProjectPermissions($id)==false){
+       
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
            return ['error'=>'Access forbidden'];
        }else{
 //      Returns the value of the id (Retorna o valor do id)
@@ -89,7 +93,7 @@ class ProjectController extends Controller
     public function update(Request $request, $id)
     {
       
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 //        Retrieves the data of the project to according to ID and save the changes(Recupera os dados do project de acordo com ID e salva as alterações feitas)
@@ -106,7 +110,7 @@ class ProjectController extends Controller
     {
        
 
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 //      Retrieves the data of the project and delete (Recupera os dados e os deleta)
@@ -117,7 +121,7 @@ class ProjectController extends Controller
     
     public function showmembers($id)
     {
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
         return $this->service->showmembers($id);
@@ -125,7 +129,7 @@ class ProjectController extends Controller
     public function isMember($id, $memberId)
     {
 
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 
@@ -135,7 +139,7 @@ class ProjectController extends Controller
     public function storemembers(Request $request)
     {
 
-        if($this->service->checkProjectPermissions($request->project_id)==false){
+        if($this->PermissionsService->checkProjectPermissions($request->project_id)==false){
             return ['error'=>'Access forbidden'];
         }
         return  $this->service->addMember($request->all());
@@ -144,11 +148,12 @@ class ProjectController extends Controller
 
     public function destroymembers($id, $memberId)
     {
+
         
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
-        return $this->service->destroymembers($id, $memberId);
+        return $this->service->destroymembers($memberId);
 
     }
 

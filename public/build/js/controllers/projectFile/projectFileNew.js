@@ -14,7 +14,7 @@ angular.module('app.controllers').controller('ProjectFileNewController',['$scope
                      id: $routeParams.id,
                      idFile: ''
                  });
-            console.log(URL);
+          
             Upload.upload({
                 url: URL,
                 fields:{

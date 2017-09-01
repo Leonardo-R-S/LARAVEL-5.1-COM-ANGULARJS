@@ -61,8 +61,10 @@ class ProjectNoteService
 
 //Function resposible for recover data from 'Nota'(Função responsavel por recuperar dados do 'Nota')
     public function show($id, $noteId){
-       
+
         try {
+
+            
               $result = $this->repository->skipPresenter()->findWhere(['id'=>$noteId,'project_id'=>$id]);
              if(isset($result['data'])&& count($result['data'])==1){
                  $result = ['data' => $result['data'][0]];

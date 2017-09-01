@@ -4,8 +4,9 @@ namespace CodeProject\Http\Middleware;
 
 use Closure;
 
-use CodeProject\Services\ProjectService;
-use CodeProject\Services\ProjectNoteService;
+use CodeProject\Services\PermissionsService;
+
+
 
 
 class CheckProjectPermission
@@ -21,9 +22,13 @@ class CheckProjectPermission
 
 
 
-    public function __construct(ProjectService $service)
+
+
+    public function __construct(PermissionsService $service )
     {
+
         $this->service = $service;
+
 
 
     }
@@ -40,7 +45,7 @@ class CheckProjectPermission
 
        $projectId = $request->route('id') ? $request->route('id') : $request->route('project');
 
-
+       
         if ($this->service->checkProjectPermissions($projectId)== false) {
 
             return ['error'=> 'You haven\'t permission to access project'];

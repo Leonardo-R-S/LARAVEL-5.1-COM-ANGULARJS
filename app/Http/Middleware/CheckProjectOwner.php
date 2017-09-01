@@ -3,7 +3,7 @@
 namespace CodeProject\Http\Middleware;
 
 use Closure;
-use CodeProject\Services\ProjectService;
+use CodeProject\Services\PermissionsService;
 
 class CheckProjectOwner
 {
@@ -15,7 +15,7 @@ class CheckProjectOwner
     private $service;
 
 
-    public function __construct(ProjectService $service)
+    public function __construct(PermissionsService $service)
     {
         $this->service = $service;
     }

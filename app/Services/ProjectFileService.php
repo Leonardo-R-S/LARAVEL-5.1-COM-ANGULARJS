@@ -163,31 +163,5 @@ class ProjectFileService
 
     }
 
-    //////////////////////// Initiate access validation (Inicia validação de acesso) ////////////////////////////////////
-    public function checkProjectOwner($projectID){
-
-
-        $userId = \Authorizer::getResourceOwnerId();
-
-
-        return $this->projectRepository->isOwner($projectID, $userId);
-
-
-    }
-    public function checkProjectMember($projectID){
-        $userId = \Authorizer::getResourceOwnerId();
-     
-        return $this->projectRepository->hasMember($projectID, $userId);
-    }
-
-
-    public  function checkProjectPermissions($projectID){
-
-
-        if($this->checkProjectOwner($projectID)or $this->checkProjectMember($projectID)){
-            return true;
-        }
-        return false;
-    }
-
+ 
 }

@@ -26,10 +26,11 @@ Route::post('oauth/access_token', function() {
     //Identifies what action and send to controller
     Route::resource('client', 'ClientController', ['except'=>['create','edit']]);
 
+
     Route::resource('project', 'ProjectController', ['except'=>['create','edit']]);
 
     //Incerts the value of prefix in rotas(Incere o valor do profixo nas rotas)
-    Route::group(['middleware'=>'check-project-permission','prefix'=>'project'],function(){
+    Route::group(['prefix'=>'project'],function(){
 
 
 
@@ -65,7 +66,7 @@ Route::post('oauth/access_token', function() {
 
     });
     Route::get('user/authenticated', 'UserController@authenticated');
-
+    Route::resource('user', 'UserController', ['except'=>['create','edit']]);
 
 
 

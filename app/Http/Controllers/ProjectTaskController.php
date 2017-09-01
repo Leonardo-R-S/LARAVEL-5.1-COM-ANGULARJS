@@ -4,9 +4,8 @@ namespace CodeProject\Http\Controllers;
 
 use CodeProject\Repositories\ProjectRepository;
 use CodeProject\Repositories\ProjectTaskRepository;
-
-
 use CodeProject\Services\ProjectTaskService;
+use CodeProject\Services\PermissionsService;
 use Illuminate\Http\Request;
 
 
@@ -19,13 +18,14 @@ class ProjectTaskController extends Controller
 
     private $service;
     private $projectRepository;
+    private $PermissionsService;
 
-    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service, ProjectRepository $projectRepository)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service, ProjectRepository $projectRepository, PermissionsService $PermissionsService)
     {
         $this->repository = $repository;
         $this->service = $service;
         $this->projectRepository = $projectRepository;
-
+        $this->PermissionsService = $PermissionsService;
         $this->middleware('oauth');
     }
 
@@ -39,7 +39,7 @@ class ProjectTaskController extends Controller
     {
 
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
         return $this->service->index($id);
@@ -55,7 +55,7 @@ class ProjectTaskController extends Controller
      */
  public function store(Request $request, $id)
  {
-     if($this->service->checkProjectPermissions($id)==false){
+     if($this->PermissionsService->checkProjectPermissions($id)==false){
          return ['error'=>'Access forbidden'];
      }
 
@@ -77,7 +77,7 @@ class ProjectTaskController extends Controller
      */
     public function show($id, $idTask)
     {
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 
@@ -97,11 +97,15 @@ class ProjectTaskController extends Controller
  public function update(Request $request, $id, $idTask)
  {
 
-     if($this->service->checkProjectPermissions($id)==false){
+     if($this->PermissionsService->checkProjectPermissions($id)==false){
          return ['error'=>'Access forbidden'];
      }
+
+     $data =  $request->all();
+     $data['project_id'] = $id;
+
 //        Retrieves the data of the projectTask to according to ID and save the changes(Recupera os dados do projectTask de acordo com ID e salva as alterações feitas)
-    return $this->service->update($request->all(), $idTask);
+    return $this->service->update($data, $idTask);
  }
 
 
@@ -115,7 +119,7 @@ class ProjectTaskController extends Controller
     {
 
 
-        if($this->service->checkProjectPermissions($id)==false){
+        if($this->PermissionsService->checkProjectPermissions($id)==false){
             return ['error'=>'Access forbidden'];
         }
 

@@ -1,4 +1,4 @@
-angular.module('app.services').service('Project',['$resource','$filter','$httpParamSerializer','appConfig',function ($resource,$filter,$httpParamSerializer,appConfig) {
+angular.module('app.services').service('Project',['$resource','$filter','$routeParams','$httpParamSerializer','appConfig',function ($resource,$filter,$routeParams,$httpParamSerializer,appConfig) {
 
     function transformDate(data) {
         //verifica se é um objeto e verifica se data contem due_date
@@ -13,7 +13,8 @@ angular.module('app.services').service('Project',['$resource','$filter','$httpPa
         return data;
     }
 
-    
+   
+
     return $resource(appConfig.baseUrl + '/project/:id',{id:'@id'},
         {
             save: {

@@ -34,7 +34,7 @@ angular.module('app.controllers').controller('ProjectEditController',['$scope','
 
         if($scope.form.$valid) {
 
-            Project.update({id:$scope.project.id},$scope.project, function () {
+            Project.update({id:$routeParams.id},$scope.project, function () {
                 $location.path('/projects');
             });
         }

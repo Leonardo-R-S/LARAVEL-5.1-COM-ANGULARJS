@@ -140,8 +140,8 @@ class ProjectService
     {
 
         try {
-            return $members = $this->repository->with('members')->find($id);
-            // return $members = $this->repository->with('members')->find($id);
+            //return $members = $this->repository->with('members')->find($id);
+             return $members = $this->membersRepository->with('user')->findWhere(['project_id' => $id]);
 
         } catch (\Exception $e) {
             return [
@@ -155,7 +155,7 @@ class ProjectService
     {
 
 
-        $val = $this->membersRepository->with('user')->findWhere(['project_id' => $id, 'user_id' => $membersId]);
+        $val = $this->membersRepository->with('user')->find($membersId);
         if (count($val) == null) {
             return [
                 'error' => true,
@@ -184,14 +184,17 @@ class ProjectService
         }
     }
 
-    public function destroymembers($id, $membersId)
+    public function destroymembers($membersId)
     {
 
         try {
 
 
-            $project = $this->repository->skipPresenter()->find($id);
-            $project->members()->delete($membersId);
+
+                $this->membersRepository->skipPresenter()->find($membersId)->delete();
+
+           /* $project = $this->repository->skipPresenter()->find($id);
+            $project->members()->delete($membersId);*/
 
             return ['success' => true, 'Membro do projeto deletado com sucesso!'];
         } catch (QueryException $e) {
@@ -204,36 +207,6 @@ class ProjectService
                 'message' => $e->getMessage()
             ];
         }
-    }
-
-
-    //////////////////////// Initiate access validation (Inicia validação de acesso) ////////////////////////////////////
-    public function checkProjectOwner($projectID)
-    {
-        dd(\Authorizer::getResourceOwnerId());
-        $userId = \Authorizer::getResourceOwnerId();
-
-        return $this->repository->isOwner($projectID, $userId);
-
-
-    }
-
-    public function checkProjectMember($projectID)
-    {
-
-        $userId = \Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($projectID, $userId);
-    }
-
-
-    public function checkProjectPermissions($projectID)
-    {
-
-
-        if ($this->checkProjectOwner($projectID) or $this->checkProjectMember($projectID)) {
-            return true;
-        }
-        return false;
     }
 
 

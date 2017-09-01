@@ -38,7 +38,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+       
+//     Return array with data (Retorn um array com dados)
+        return $this->repository->all();
     }
 
     /**
@@ -70,7 +72,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return $this->repository->find($id);
     }
 
     /**

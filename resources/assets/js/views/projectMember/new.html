@@ -1,0 +1,54 @@
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">New Note of Project</div>
+                <div class="panel-body">
+
+
+
+
+                    <form class="form-horizontal" name="form" role="form" method="POST" ng-submit="saveProjectMember()">
+
+
+
+
+
+
+                        <div class="form-group" ng-class="{'has-error':!form.IdMember.$valid && form.IdMember.$touched}">
+                            <label class="col-md-4 control-label">Name of Member </label>
+                            <div class="col-md-6" >
+
+                                <input type="text" class="form-control" name="IdMember" ng-model="memberSelected"
+                                       typeahead="o as o.name for o in getMembers($viewValue)| limitTo:10"
+                                       typeahead-input-formatter="formatName($model)"
+                                       typeahead-on-select="selectMember($item)"
+                                       typeahead-editable="false"
+                                       required
+                                />
+
+                                <div ng-messages="form.IdMember.$error" class="help-block" ng-show="form.IdMember.$touched">
+                                    <div ng-message="required">Required</div>
+                                    <div ng-message="editable">Insert one Client valid.</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

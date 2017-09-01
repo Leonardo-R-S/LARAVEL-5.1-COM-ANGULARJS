@@ -20,9 +20,17 @@ app.provider('appConfig',['$httpParamSerializerProvider',function ($httpParamSer
         baseUrl: 'http://localhost/CursoLaravelAngular/public',
         project:{
             status:[
-                {value: 1, label: 'Não iniciado'},
-                {value: 2, label: 'Iniciado'},
-                {value: 3, label: 'Concluido'}
+                {value: 1, label: 'Not started'},
+                {value: 2, label: 'Initiate'},
+                {value: 3, label: 'Completed'}
+            ]
+
+        },
+        projectTask:{
+            status:[
+                {value: 1, label: 'Incomplete'},
+                {value: 2, label: 'Completed'}
+
             ]
 
         },
@@ -166,10 +174,43 @@ app.config(['$routeProvider','$httpProvider','OAuthProvider','OAuthTokenProvider
         .when('/project/:id/files/:idFile/remove',{
             templateUrl:'build/views/projectFile/remove.html',
             controller:'ProjectFileRemoveController'
+        })
+
+
+    //Routes of Project Task
+        .when('/project/:id/task',{
+            templateUrl:'build/views/projectTask/list.html',
+            controller:'ProjectTaskListController'
+        })
+        .when('/project/:id/task/new',{
+            templateUrl:'build/views/projectTask/new.html',
+            controller:'ProjectTaskNewController'
+        })
+       
+        .when('/project/:id/task/:idTask/edit',{
+            templateUrl:'build/views/projectTask/edit.html',
+            controller:'ProjectTaskEditController'
+        })
+        .when('/project/:id/task/:idTask/remove',{
+            templateUrl:'build/views/projectTask/remove.html',
+            controller:'ProjectTaskRemoveController'
+        })
+
+    //Routes of Project Members
+        .when('/project/:id/members',{
+            templateUrl:'build/views/projectMember/list.html',
+            controller:'ProjectMemberListController'
+        })
+        .when('/project/:id/member/new',{
+            templateUrl:'build/views/projectMember/new.html',
+            controller:'ProjectMemberNewController'
+        })
+
+
+        .when('/project/:id/member/:idMember/remove',{
+            templateUrl:'build/views/projectMember/remove.html',
+            controller:'ProjectMemberRemoveController'
         });
-
-
-
 
 
 

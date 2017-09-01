@@ -41,6 +41,7 @@ class ClientController extends Controller
     // Call interfece ClientRepository (Chamo a interface clientRepository)
     public function index()
     {
+       
 //     Return array with data (Retorn um array com dados)
        return $this->repository->all();
     }
@@ -62,6 +63,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
+
 //      Returns the value of the id (Retorna o valor do id)
         return $this->service->show($id);
     }

@@ -9,10 +9,11 @@ angular.module('app.controllers').controller('ProjectNoteEditController',['$scop
     var idNote = $routeParams.idNote;
 
 
+
    // var valor = JSON.stringify(ProjectNote.query({id:id,idNote:idNote}));
     $scope.projectNote =  ProjectNote.get({id:id,idNote:idNote});
 
-    //console.log(valor);
+    
 
     $scope.saveNoteEdit = function () {
 

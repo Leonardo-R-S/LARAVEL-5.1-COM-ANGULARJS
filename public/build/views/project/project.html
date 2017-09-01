@@ -20,7 +20,7 @@
                         </thead>
                         <tbody>
                         <tr >
-                            <td>{{project.id}}</td>
+                            <td>{{project.name}}</td>
                             <td>{{project.client_id}}</td>
                             <td>{{project.name}}</td>
                             <td>{{project.description}}</td>
@@ -29,8 +29,8 @@
                             <td>{{project.due_date}}</td>
 
                             <td>
-                                <a ng-href="#/projects/{{project.id}}/edit" >Edit</a> /
-                                <a ng-href="#/projects/{{project.id}}/remove" >Excluir</a>
+                                <a ng-href="#/projects/{{project.project_id}}/edit" >Edit</a> /
+                                <a ng-href="#/projects/{{project.project_id}}/remove" >Excluir</a>
                             </td>
                         </tr>
                         </tbody>

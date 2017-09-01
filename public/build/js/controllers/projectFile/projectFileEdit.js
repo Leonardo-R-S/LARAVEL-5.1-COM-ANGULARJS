@@ -12,7 +12,7 @@ angular.module('app.controllers').controller('ProjectFileEditController',['$scop
    // var valor = JSON.stringify(ProjectNote.query({id:id,idNote:idNote}));
     $scope.projectFile=  ProjectFile.get({id:id,idFile:idFile});
 
-    //console.log(valor);
+    
 
     $scope.saveFileEdit = function () {
 
