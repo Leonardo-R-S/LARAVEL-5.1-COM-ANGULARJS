@@ -46,7 +46,7 @@ class ProjectController extends Controller
     {
 
 //     Restrives data function 'index' in 'ProjectService'  (Recupera os dados da função index)
-        return $this->repository->findWithOwnerAndMember(\Authorizer::getResourceOwnerId());
+        return $this->repository->findOwner(\Authorizer::getResourceOwnerId(),6);
     }
 
     /**

@@ -33,6 +33,10 @@ angular.module('app.services').service('Project',['$resource','$filter','$routeP
                     return valor;
                 }
             },
+            //Corrige o erro que pede um array em vez de um query
+            query:{
+                isArray:false,
+            },
                 update: {
                     method: 'PUT',
                     transformRequest: transformDate

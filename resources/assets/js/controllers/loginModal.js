@@ -1,5 +1,5 @@
-angular.module('app.controllers').controller('LoginModelController',['$rootScope','$scope','$location','ipCookie','$modalInstance','authService','User','OAuth','OAuthToken',
-                                                           function ($rootScope,$scope,$location,ipCookie,$modalInstance,authService,User,OAuth,OAuthToken) {
+angular.module('app.controllers').controller('LoginModelController',['$rootScope','$scope','$location','$cookies','$modalInstance','authService','User','OAuth','OAuthToken',
+                                                           function ($rootScope,$scope,$location,$cookies,$modalInstance,authService,User,OAuth,OAuthToken) {
     $scope.user = {
         username:'',
         password:''
@@ -28,7 +28,7 @@ angular.module('app.controllers').controller('LoginModelController',['$rootScope
        if($scope.form.$valid) {
            OAuth.getAccessToken($scope.user).then(function () {
                User.authenticated({},{},function (data) {
-                   ipCookie('user',data);
+                   $cookies.putObject('user',data);
                    authService.loginConfirmed();
 
                });

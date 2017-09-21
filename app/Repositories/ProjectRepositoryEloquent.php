@@ -41,7 +41,17 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
         return false;
     }
 
-    public function findWithOwnerAndMember($userID){
+    public function findOwner($userID, $limit = null, $columns = array()){
+        return $this->scopeQuery(function ($query) use($userID){
+            return $query->select('projects.*')
+
+                ->where('owner_id','=',$userID);
+        })->paginate($limit, $columns);
+
+    }
+
+   /* Exemplo utilizado anteriormente
+   public function findWithOwnerAndMember($userID){
         return $this->scopeQuery(function ($query) use($userID){
             return $query->select('projects.*')
                          ->leftJoin('project_members','project_members.project_id','=','projects.id')
@@ -49,7 +59,7 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
                          ->union($this->model->query()->getQuery()->where('owner_id','=',$userID));
         })->all();
 
-    }
+    }*/
 
     public function presenter(){
         return ProjectPresenter::class;

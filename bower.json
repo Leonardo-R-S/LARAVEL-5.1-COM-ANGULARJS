@@ -21,9 +21,10 @@
     "angular-strap": "2.2.4",
     "bootstrap": "3.3.5",
     "angular-messages": "1.4.1",
-    "angular-oauth2": "2.0.0",
+    "angular-oauth2": "3.0.1",
     "angular-cookies": "1.4.1",
     "ng-file-upload": "7.0.17",
-    "angular-http-auth": "^1.5.0"
+    "angular-http-auth": "^1.5.0",
+    "angularUtils-pagination": "angular-utils-pagination#^0.11.1"
   }
 }

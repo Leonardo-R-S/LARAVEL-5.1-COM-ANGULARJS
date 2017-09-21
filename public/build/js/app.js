@@ -2,10 +2,10 @@
  * Created by LeoTJ on 28/02/2017.
  */
 
-var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','ipCookie','app.services','app.filters','app.directives',
-                                'ui.bootstrap.typeahead','ui.bootstrap.datepicker','ui.bootstrap.tpls','ui.bootstrap.modal','ngFileUpload','http-auth-interceptor']);
+var app = angular.module('app',['ngRoute','angular-oauth2','app.controllers','ngCookies','app.services','app.filters','app.directives',
+                                'ui.bootstrap.typeahead','ui.bootstrap.datepicker','ui.bootstrap.tpls','ui.bootstrap.modal','ngFileUpload','http-auth-interceptor','angularUtils.directives.dirPagination']);
 
-angular.module('app.controllers',['ngMessages','angular-oauth2','ipCookie']);
+angular.module('app.controllers',['ngMessages','angular-oauth2','ngCookies']);
 
 angular.module('app.filters',[]);
 
@@ -50,7 +50,7 @@ app.provider('appConfig',['$httpParamSerializerProvider',function ($httpParamSer
                 var headersGetter = headers();
                 if (headersGetter['content-type'] == 'application/json' || headersGetter['content-type'] == 'text/json') {
                     var dataJson = JSON.parse(data);
-                    if (dataJson.hasOwnProperty('data')) {
+                    if (dataJson.hasOwnProperty('data') && Object.keys(dataJson).length == 1) {
                         dataJson = dataJson.data;
                     }
                     return dataJson;
